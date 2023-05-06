@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import {
   BreakpointObserver,
@@ -17,7 +17,6 @@ export class ScreenResolutionService {
     return this._breakpointObserver
       .observe([Breakpoints.XSmall])
       .pipe(
-        tap((state: BreakpointState) => console.log(state)),
         map((state: BreakpointState) => state.matches)
       );
   }

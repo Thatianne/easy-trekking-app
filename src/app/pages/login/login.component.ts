@@ -3,7 +3,6 @@ import { Observable, first } from 'rxjs';
 import { ScreenResolutionService } from '@services/screen-resolution/screen-resolution.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '@services/user/user.service';
-import { LoginForm } from './models/login-form';
 import { Router } from '@angular/router';
 
 @Component({

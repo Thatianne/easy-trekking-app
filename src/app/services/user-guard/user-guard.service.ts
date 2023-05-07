@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
-import { User } from '@models/user';
-import { LocalStorageKeysEnum } from '@services/local-storage/enums/local-storage-keys.enums';
-import { LocalStorageService } from '@services/local-storage/local-storage.service';
-import { Observable, map } from 'rxjs';
+import { Router } from '@angular/router';
+import { UserService } from '@services/user/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserGuardService {
 
-  constructor(private _localStorageService: LocalStorageService) { }
+  constructor(private _userService: UserService, private _router: Router) { }
 
   canActivate(): boolean {
-    return !!this._localStorageService.get<User>(LocalStorageKeysEnum.User);
+    if (!this._userService.isLoggedIn()) {
+      this._router.navigateByUrl('/login');
+      return false;
+    }
+
+    return true
   }
 }

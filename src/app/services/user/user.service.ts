@@ -23,4 +23,8 @@ export class UserService {
       })
     )
   }
+
+  isLoggedIn(): boolean {
+    return !!this._localStorageService.get(LocalStorageKeysEnum.User);
+  }
 }

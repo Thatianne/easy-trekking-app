@@ -2,21 +2,21 @@
   <div class="p-5">
     <app-logo class="d-block mb-5">
     </app-logo>
-    <ng-container *ngTemplateOutlet="form"></ng-container>
+    <ng-container *ngTemplateOutlet="loginForm"></ng-container>
   </div>
 </ng-container>
 
 
-<ng-template #form>
-  <form>
+<ng-template #loginForm>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="inputEmail">E-mail</label>
-        <input type="email" class="form-control" id="inputEmail" />
+        <input type="email" class="form-control" id="inputEmail" formControlName="email" />
       </div>
 
       <div class="form-group">
         <label for="inputPassword">Senha</label>
-        <input type="password" class="form-control" id="inputPassword" />
+        <input type="password" class="form-control" id="inputPassword" formControlName="password"/>
       </div>
 
       <button type="submit" class="btn btn-primary btn-block">Entrar</button>
@@ -27,7 +27,7 @@
   <div class="p-5 row">
     <app-logo class="col-8 col-sm-6"></app-logo>
     <div class="shadow-sm p-3 bg-white rounded col-4 col-sm-6">
-      <ng-container *ngTemplateOutlet="form"></ng-container>
+      <ng-container *ngTemplateOutlet="loginForm"></ng-container>
     </div>
   </div>
 </ng-template>

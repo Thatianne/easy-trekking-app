@@ -11,11 +11,11 @@ export class LocalStorageService {
     this._localStorage = localStorage;
   }
 
-  set(key: LocalStorageKeysEnum, value: any): void {
+  set<T>(key: LocalStorageKeysEnum, value: T): void {
     this._localStorage.setItem(key, JSON.stringify(value));
   }
 
-  get(key: LocalStorageKeysEnum): void {
+  get<T>(key: LocalStorageKeysEnum): T {
     const value = this._localStorage.getItem(key);
     return value ? JSON.parse(value) : null
   }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ScreenResolutionService } from '@services/screen-resolution.service';
+import { ScreenResolutionService } from '@services/screen-resolution/screen-resolution.service';
 
 @Component({
   selector: 'app-login',

@@ -28,6 +28,8 @@
       "@components/*": ["src/app/components/*"],
       "@pages/*": ["src/app/pages/*"],
       "@layouts/*": ["src/app/layouts/*"],
+      "@models/*": ["src/app/models/*"],
+      "@environments/*": ["src/environments/*"],
     }
   },
   "angularCompilerOptions": {

@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { RegisterSteps } from './enums/register-steps.enum';
 import { DocumentTypeEnum } from 'src/app/enums/document-type.enum';
 
+import { MustMatch } from '@helpers/must-match';
+
 @Component({
   selector: 'app-tourist-guide-register',
   templateUrl: './tourist-guide-register.component.html',
@@ -16,18 +18,22 @@ export class TouristGuideRegisterComponent {
   step: RegisterSteps = RegisterSteps.First;
   stepEnums = RegisterSteps;
   formFirst = this._formBuilder.group({
-    email: ['', Validators.required],
-    name: ['', Validators.required],
-    phone: ['', Validators.required],
-    document: ['', Validators.required],
-    address: ['']
+    email: ['', [Validators.required, Validators.email]],
+    name: ['', [Validators.required]],
+    phone: ['', [Validators.required]],
+    document: ['', [Validators.required]],
+    address: ['', [Validators.required]]
   });
+  submittedFirst = false;
   formSecond = this._formBuilder.group({
-    association: [0, Validators.required],
-    associationCard: ['', Validators.required],
-    password: ['', Validators.required],
-    passwordConfirmation: ['', Validators.required]
+    association: [0, [Validators.required]],
+    associationCard: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    passwordConfirmation: ['', [Validators.required, Validators.minLength(6)]]
+  }, {
+    validators: MustMatch('password', 'passwordConfirmation')
   });
+  submittedSecond = false;
 
   constructor(
     private _screeResolutionService: ScreenResolutionService,
@@ -37,7 +43,9 @@ export class TouristGuideRegisterComponent {
     this.isMobile$ = this._screeResolutionService.isMobile();
   }
 
-  onSubmit(): void {
+  onSubmit(e: MouseEvent): void {
+    e.preventDefault();
+    this.submittedSecond = true;
     if (this.formFirst.invalid && this.formSecond.invalid) {
       return;
     }
@@ -57,7 +65,18 @@ export class TouristGuideRegisterComponent {
   }
 
   nextStep(): void {
-    this.step = RegisterSteps.Second;
+    if (this.formFirst.valid) {
+      this.step = RegisterSteps.Second;
+    }
+    this.submittedFirst = true;
+  }
+
+  get firstControls() {
+    return this.formFirst.controls;
+  }
+
+  get secondControls() {
+    return this.formSecond.controls;
   }
 
 }

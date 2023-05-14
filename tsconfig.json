@@ -30,6 +30,7 @@
       "@layouts/*": ["src/app/layouts/*"],
       "@models/*": ["src/app/models/*"],
       "@environments/*": ["src/environments/*"],
+      "@helpers/*": ["src/app/helpers/*"],
     }
   },
   "angularCompilerOptions": {

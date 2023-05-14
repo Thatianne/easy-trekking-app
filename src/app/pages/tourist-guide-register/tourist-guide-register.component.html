@@ -7,7 +7,7 @@
 </ng-container>
 
 <ng-template #mobileRegister>
-  <form (ngSubmit)="onSubmit()">
+  <form>
     <ng-container *ngIf="step === stepEnums.First">
       <div class="d-flex flex-column justify-content-between">
         <ng-container *ngTemplateOutlet="registerFirst"></ng-container>
@@ -17,7 +17,7 @@
     <ng-container *ngIf="step === stepEnums.Second">
       <div class="d-flex flex-column justify-content-between">
         <ng-container *ngTemplateOutlet="registerSecond"></ng-container>
-        <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+        <button (click)="onSubmit($event)" class="btn btn-primary btn-block">Cadastrar</button>
       </div>
     </ng-container>
   </form>
@@ -27,27 +27,43 @@
   <div [formGroup]="formFirst">
     <div class="form-group">
       <label for="inputEmail">E-mail</label>
-      <input type="email" class="form-control" id="inputEmail" formControlName="email" />
+      <input type="email" class="form-control" [ngClass]="{'is-invalid': submittedFirst && firstControls.email.errors}" id="inputEmail" formControlName="email" />
+      <div *ngIf="submittedFirst && firstControls.email.errors" class="invalid-feedback">
+        <div *ngIf="firstControls.email.errors['required']">Campo obrigatório</div>
+        <div *ngIf="firstControls.email.errors['email']">Deve ser um e-mail</div>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="inputName">Nome</label>
-      <input type="text" placeholder="Nome completo" class="form-control" id="inputName" formControlName="name" />
+      <input type="text" placeholder="Nome completo" class="form-control" [ngClass]="{'is-invalid': submittedFirst && firstControls.name.errors}" id="inputName" formControlName="name" />
+      <div *ngIf="submittedFirst && firstControls.name.errors" class="invalid-feedback">
+        <div *ngIf="firstControls.name.errors['required']">Campo obrigatório</div>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="inputPhone">Telefone</label>
-      <input type="number" placeholder="(99) 9 9999-9999" class="form-control" id="inputPhone" formControlName="phone" />
+      <input type="text" placeholder="(99) 9 9999-9999" class="form-control" [ngClass]="{'is-invalid': submittedFirst && firstControls.phone.errors}" id="inputPhone" formControlName="phone" />
+      <div *ngIf="submittedFirst && firstControls.phone.errors" class="invalid-feedback">
+        <div *ngIf="firstControls.phone.errors['required']">Campo obrigatório</div>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="inputDocument">CPF</label>
-      <input type="number" placeholder="999.999.999-99" class="form-control" id="inputDocument" formControlName="document" />
+      <input type="number" placeholder="999.999.999-99" class="form-control" [ngClass]="{'is-invalid': submittedFirst && firstControls.document.errors}" id="inputDocument" formControlName="document" />
+      <div *ngIf="submittedFirst && firstControls.document.errors" class="invalid-feedback">
+        <div *ngIf="firstControls.document.errors['required']">Campo obrigatório</div>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="inputAddress">Endereço</label>
-      <input type="text" class="form-control" id="inputAddress" formControlName="address" />
+      <input type="text" class="form-control" [ngClass]="{'is-invalid': submittedFirst && firstControls.address.errors}" id="inputAddress" formControlName="address" />
+      <div *ngIf="submittedFirst && firstControls.address.errors" class="invalid-feedback">
+        <div *ngIf="firstControls.address.errors['required']">Campo obrigatório</div>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -56,22 +72,36 @@
   <div [formGroup]="formSecond">
     <div class="form-group">
       <label for="inputEmail">Associação</label>
-      <select class="custom-select" name="association" id="inputAssociation"></select>
+      <select class="custom-select" [ngClass]="{'is-invalid': submittedSecond && secondControls.association.errors}" name="association" id="inputAssociation"></select>
+      <div *ngIf="submittedSecond && secondControls.association.errors" class="invalid-feedback">
+        <div *ngIf="secondControls.association.errors['required']">Campo obrigatório</div>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="inputAssociationCard">Nº da cateira de guia</label>
-      <input type="text" class="form-control" id="inputAssociationCard" formControlName="associationCard" />
+      <input type="text" class="form-control" [ngClass]="{'is-invalid': submittedSecond && secondControls.associationCard.errors}" id="inputAssociationCard" formControlName="associationCard" />
+      <div *ngIf="submittedSecond && secondControls.associationCard.errors" class="invalid-feedback">
+        <div *ngIf="secondControls.associationCard.errors['required']">Campo obrigatório</div>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="inputPassword">Senha</label>
-      <input type="password" class="form-control" id="inputPassword" formControlName="password"/>
+      <input type="password" class="form-control" [ngClass]="{'is-invalid': submittedSecond && secondControls.password.errors}" id="inputPassword" formControlName="password"/>
+      <div *ngIf="submittedSecond && secondControls.password.errors" class="invalid-feedback">
+        <div *ngIf="secondControls.password.errors['required']">Campo obrigatório</div>
+        <div *ngIf="secondControls.password.errors['minLength']">Deve ter no mínimo 6 caracteres</div>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="inputPasswordConfirmation">Confirmar senha</label>
-      <input type="password" class="form-control" id="inputPasswordConfirmation" formControlName="passwordConfirmation"/>
+      <input type="password" class="form-control" [ngClass]="{'is-invalid': submittedSecond && secondControls.passwordConfirmation.errors}" id="inputPasswordConfirmation" formControlName="passwordConfirmation"/>
+      <div *ngIf="submittedSecond && secondControls.passwordConfirmation.errors" class="invalid-feedback">
+        <div *ngIf="secondControls.passwordConfirmation.errors['required']">Campo obrigatório</div>
+        <div *ngIf="secondControls.passwordConfirmation.errors['minLength']">Deve ter no mínimo 6 caracteres</div>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -80,10 +110,10 @@
   <div class="p-5 d-flex flex-column justify-content-center align-items-center">
     <app-logo class=""></app-logo>
     <div class="shadow-sm p-5 bg-white rounded form-box">
-      <form (ngSubmit)="onSubmit()">
+      <form>
         <ng-container *ngTemplateOutlet="registerFirst"></ng-container>
         <ng-container *ngTemplateOutlet="registerSecond"></ng-container>
-        <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+        <button (click)="onSubmit($event)" class="btn btn-primary btn-block">Cadastrar</button>
       </form>
     </div>
   </div>

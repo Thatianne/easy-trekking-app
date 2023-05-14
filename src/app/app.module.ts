@@ -7,6 +7,7 @@ import { NavbarComponent } from '@components/navbar/navbar.component';
 import { LayoutComponent } from '@layouts/layout/layout.component';
 import { LoginModule } from '@pages/login/login.module';
 import { HttpClientModule } from '@angular/common/http';
+import { TouristGuideRegisterModule } from '@pages/tourist-guide-register/tourist-guide-register.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    LoginModule
+    LoginModule,
+    TouristGuideRegisterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

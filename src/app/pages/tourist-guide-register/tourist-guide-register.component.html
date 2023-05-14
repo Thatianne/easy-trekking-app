@@ -1,0 +1,91 @@
+<ng-container *ngIf="isMobile$ | async; else desktopRegister">
+  <div class="p-5">
+    <app-logo class="d-block mb-5">
+    </app-logo>
+    <ng-container *ngTemplateOutlet="mobileRegister"></ng-container>
+  </div>
+</ng-container>
+
+<ng-template #mobileRegister>
+  <form (ngSubmit)="onSubmit()">
+    <ng-container *ngIf="step === stepEnums.First">
+      <div class="d-flex flex-column justify-content-between">
+        <ng-container *ngTemplateOutlet="registerFirst"></ng-container>
+        <button type="button" class="btn btn-primary btn-block" (click)="nextStep()">Próximo</button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="step === stepEnums.Second">
+      <div class="d-flex flex-column justify-content-between">
+        <ng-container *ngTemplateOutlet="registerSecond"></ng-container>
+        <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+      </div>
+    </ng-container>
+  </form>
+</ng-template>
+
+<ng-template #registerFirst>
+  <div [formGroup]="formFirst">
+    <div class="form-group">
+      <label for="inputEmail">E-mail</label>
+      <input type="email" class="form-control" id="inputEmail" formControlName="email" />
+    </div>
+
+    <div class="form-group">
+      <label for="inputName">Nome</label>
+      <input type="text" placeholder="Nome completo" class="form-control" id="inputName" formControlName="name" />
+    </div>
+
+    <div class="form-group">
+      <label for="inputPhone">Telefone</label>
+      <input type="number" placeholder="(99) 9 9999-9999" class="form-control" id="inputPhone" formControlName="phone" />
+    </div>
+
+    <div class="form-group">
+      <label for="inputDocument">CPF</label>
+      <input type="number" placeholder="999.999.999-99" class="form-control" id="inputDocument" formControlName="document" />
+    </div>
+
+    <div class="form-group">
+      <label for="inputAddress">Endereço</label>
+      <input type="text" class="form-control" id="inputAddress" formControlName="address" />
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #registerSecond>
+  <div [formGroup]="formSecond">
+    <div class="form-group">
+      <label for="inputEmail">Associação</label>
+      <select class="custom-select" name="association" id="inputAssociation"></select>
+    </div>
+
+    <div class="form-group">
+      <label for="inputAssociationCard">Nº da cateira de guia</label>
+      <input type="text" class="form-control" id="inputAssociationCard" formControlName="associationCard" />
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword">Senha</label>
+      <input type="password" class="form-control" id="inputPassword" formControlName="password"/>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPasswordConfirmation">Confirmar senha</label>
+      <input type="password" class="form-control" id="inputPasswordConfirmation" formControlName="passwordConfirmation"/>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #desktopRegister>
+  <div class="p-5 d-flex flex-column justify-content-center align-items-center">
+    <app-logo class=""></app-logo>
+    <div class="shadow-sm p-5 bg-white rounded form-box">
+      <form (ngSubmit)="onSubmit()">
+        <ng-container *ngTemplateOutlet="registerFirst"></ng-container>
+        <ng-container *ngTemplateOutlet="registerSecond"></ng-container>
+        <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+

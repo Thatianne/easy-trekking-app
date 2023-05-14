@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { City } from '@models/city';
 import { State } from '@models/state';
+import { FilterParams } from '@pages/available-trekkings/models/filter-params';
 import { CityService } from '@services/city/city.service';
 import { ScreenResolutionService } from '@services/screen-resolution/screen-resolution.service';
 import { StateService } from '@services/state/state.service';
@@ -19,14 +20,16 @@ export class FiltersComponent implements OnInit {
   cities$: Observable<City[]> = new Observable();
 
   formFilter = this._formBuilder.group({
-    state: ['', []],
-    city: ['', []],
-    durationMin: ['', []],
-    durationMax: ['', []],
+    state: [0, []],
+    city: [0, []],
+    durationMin: [0, []],
+    durationMax: [0, []],
     difficultLevel: [DifficultLevelEnum.Easy, []]
   });
 
   difficultLevelEnum = DifficultLevelEnum;
+
+  @Output() filter = new EventEmitter<FilterParams>();
 
   constructor(
     private _screeResolutionService: ScreenResolutionService,
@@ -56,6 +59,18 @@ export class FiltersComponent implements OnInit {
 
   get formControls() {
     return this.formFilter.controls;
+  }
+
+  onFilter(): void {
+    this.filter.emit({
+      state: this.formControls.state.value,
+      city: this.formControls.city.value,
+      duration: {
+        min: this.formControls.durationMin.value,
+        max: this.formControls.durationMax.value
+      },
+      difficultLevel: this.formControls.difficultLevel.value
+    })
   }
 
 }

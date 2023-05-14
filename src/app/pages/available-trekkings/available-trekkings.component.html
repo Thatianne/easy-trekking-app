@@ -2,6 +2,17 @@
   <input type="text" class="form-control" [(ngModel)]="search" />
   <button (click)="onSearch($event)" class="btn btn-primary ml-2">Buscar</button>
 </div>
-<button (click)="onOpenFilters($event)" class="btn btn-secondary mt-3">Filtrar</button>
+<button class="btn btn-secondary mt-3" (click)="onOpenFilters()">Filtrar</button>
 
-<app-filters></app-filters>
+<div class="modal" #filtersModal>
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title fs-5">Filtros</p>
+      </div>
+      <div class="modal-body">
+        <app-filters></app-filters>
+      </div>
+    </div>
+  </div>
+</div>

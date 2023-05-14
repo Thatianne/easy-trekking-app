@@ -7,7 +7,7 @@
       id="inputState"
       formControlName="state"
     >
-      <option value="" selected disabled>Selecione</option>
+      <option value=0 selected disabled>Selecione</option>
       <option
         *ngFor="let state of states$ | async"
         [value]="state.id"
@@ -25,7 +25,7 @@
       id="inputCity"
       formControlName="city"
     >
-      <option value="" selected disabled>Selecione</option>
+      <option value=0 selected disabled>Selecione</option>
       <option
         *ngFor="let city of cities$ | async"
         [value]="city.id"
@@ -57,5 +57,5 @@
     </div>
   </div>
 
-  <button class="btn btn-primary btn-block">Filtrar</button>
+  <button class="btn btn-primary btn-block" (click)="onFilter()">Filtrar</button>
 </form>

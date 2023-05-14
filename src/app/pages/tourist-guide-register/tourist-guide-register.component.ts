@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ScreenResolutionService } from '@services/screen-resolution/screen-resolution.service';
 import { UserService } from '@services/user/user.service';
 import { Observable } from 'rxjs';
@@ -7,14 +7,17 @@ import { RegisterSteps } from './enums/register-steps.enum';
 import { DocumentTypeEnum } from 'src/app/enums/document-type.enum';
 
 import { MustMatch } from '@helpers/must-match';
+import { Association } from '@models/association';
+import { AssociationService } from '@services/association/association.service';
 
 @Component({
   selector: 'app-tourist-guide-register',
   templateUrl: './tourist-guide-register.component.html',
   styleUrls: ['./tourist-guide-register.component.scss'],
 })
-export class TouristGuideRegisterComponent {
+export class TouristGuideRegisterComponent implements OnInit {
   isMobile$: Observable<boolean>;
+  associations$: Observable<Association[]> = new Observable();
   step: RegisterSteps = RegisterSteps.First;
   stepEnums = RegisterSteps;
   formFirst = this._formBuilder.group({
@@ -38,9 +41,14 @@ export class TouristGuideRegisterComponent {
   constructor(
     private _screeResolutionService: ScreenResolutionService,
     private _formBuilder: NonNullableFormBuilder,
-    private _userService: UserService
+    private _userService: UserService,
+    private _associationService: AssociationService,
   ) {
     this.isMobile$ = this._screeResolutionService.isMobile();
+  }
+
+  ngOnInit(): void {
+    this.associations$ = this._associationService.get();
   }
 
   onSubmit(e: MouseEvent): void {

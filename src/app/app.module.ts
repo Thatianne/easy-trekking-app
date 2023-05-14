@@ -8,6 +8,7 @@ import { LayoutComponent } from '@layouts/layout/layout.component';
 import { LoginModule } from '@pages/login/login.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TouristGuideRegisterModule } from '@pages/tourist-guide-register/tourist-guide-register.module';
+import { AvailableTrekkingsModule } from '@pages/available-trekkings/available-trekkings.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TouristGuideRegisterModule } from '@pages/tourist-guide-register/touris
     HttpClientModule,
     AppRoutingModule,
     LoginModule,
-    TouristGuideRegisterModule
+    TouristGuideRegisterModule,
+    AvailableTrekkingsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { State } from '@models/state';
+import { City } from '@models/city';
 import { ApiService } from '@services/api/api.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StateService {
+export class CityService {
 
   constructor(private _apiService: ApiService) { }
 
-  get(): Observable<State[]> {
-    return this._apiService.get<State[]>('/state');
+  get(): Observable<City[]> {
+    return this._apiService.get<City[]>('/city');
   }
 }

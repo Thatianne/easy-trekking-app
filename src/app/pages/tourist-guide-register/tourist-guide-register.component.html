@@ -71,8 +71,8 @@
 <ng-template #registerSecond>
   <div [formGroup]="formSecond">
     <div class="form-group">
-      <label for="inputEmail">Associação</label>
-      <select class="custom-select" [ngClass]="{'is-invalid': submittedSecond && secondControls.association.errors}" name="association" id="inputAssociation">
+      <label for="inputAssociation">Associação</label>
+      <select class="custom-select" [ngClass]="{'is-invalid': submittedSecond && secondControls.association.errors}" name="association" id="inputAssociation" formControlName="association">
         <option value="" selected disabled>Selecione</option>
         <option *ngFor="let association of (associations$ | async)" [value]="association.value">{{ association.value }}</option>
       </select>

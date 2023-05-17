@@ -6,13 +6,23 @@
       <!-- <th>Ação</th> -->
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor="let trekking of (trekkings$ | async)" (click)="onTrekkingSelect(trekking)">
-      <td>{{trekking.name}}</td>
-      <td>{{trekking.start}} - {{trekking.end}}</td>
+  <tbody *ngIf="trekkings; else loading">
+    <tr
+      *ngFor="let trekking of trekkings"
+      (click)="onTrekkingSelect(trekking)"
+    >
+      <td>{{ trekking.name }}</td>
+      <td>{{ trekking.start }} - {{ trekking.end }}</td>
       <!-- <td>
         <button class="btn btn-danger btn-close"></button>
       </td> -->
     </tr>
   </tbody>
+  <ng-template #loading>
+    <div class="d-flex flex-row justify-content-center mt-3">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </ng-template>
 </table>

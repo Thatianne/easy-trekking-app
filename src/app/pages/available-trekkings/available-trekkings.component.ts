@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Trekking } from '@models/trekking';
 import { ScreenResolutionService } from '@services/screen-resolution/screen-resolution.service';
+import { TrekkingService } from '@services/trekking/trekking.service';
 import { UserService } from '@services/user/user.service';
 import { Observable } from 'rxjs';
 
@@ -10,6 +12,8 @@ import { Observable } from 'rxjs';
 })
 export class AvailableTrekkingsComponent implements OnInit {
   isMobile$: Observable<boolean>;
+  trekkings$: Observable<Trekking[]>;
+
   search: string = '';
   filtersIsOpen = false;
   formModal: any;
@@ -18,9 +22,11 @@ export class AvailableTrekkingsComponent implements OnInit {
 
   constructor(
     private _screeResolutionService: ScreenResolutionService,
+    private _trekkingService: TrekkingService,
     private _userService: UserService
   ) {
     this.isMobile$ = this._screeResolutionService.isMobile();
+    this.trekkings$ = this._trekkingService.get();
   }
 
   ngOnInit(): void {

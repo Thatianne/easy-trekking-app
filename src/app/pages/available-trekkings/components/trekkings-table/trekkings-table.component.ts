@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Trekking } from '@models/trekking';
 import { TrekkingService } from '@services/trekking/trekking.service';
@@ -9,16 +9,12 @@ import { Observable } from 'rxjs';
   templateUrl: './trekkings-table.component.html',
   styleUrls: ['./trekkings-table.component.scss']
 })
-export class TrekkingsTableComponent implements OnInit {
-  trekkings$!: Observable<Trekking[]>;
+export class TrekkingsTableComponent {
+  @Input() trekkings!: Trekking[] | null;
 
-  constructor(private _trekkingService: TrekkingService, private _router: Router) {}
-
-  ngOnInit(): void {
-    this.trekkings$ = this._trekkingService.get();
-  }
+  constructor(private _router: Router) {}
 
   onTrekkingSelect(trekking: Trekking): void {
-    this._router.navigate(['/trekkings', { id: trekking.id }]);
+    this._router.navigate([`/trekkings/${trekking.id}`]);
   }
 }

@@ -14,13 +14,14 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     canActivate: [canActivateUser],
+    // redirectTo: 'trekkings',
     children: [
       {
-        path: '',
+        path: 'trekkings',
         component: AvailableTrekkingsComponent
       },
       {
-        path: ':id',
+        path: 'trekkings/:id',
         component: TrekkingDetailsComponent
       }
     ]

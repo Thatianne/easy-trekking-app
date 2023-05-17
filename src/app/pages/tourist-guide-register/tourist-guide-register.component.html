@@ -94,7 +94,7 @@
       <input type="password" class="form-control" [ngClass]="{'is-invalid': submittedSecond && secondControls.password.errors}" id="inputPassword" formControlName="password"/>
       <div *ngIf="submittedSecond && secondControls.password.errors" class="invalid-feedback">
         <div *ngIf="secondControls.password.errors['required']">Campo obrigatório</div>
-        <div *ngIf="secondControls.password.errors['minLength']">Deve ter no mínimo 6 caracteres</div>
+        <div *ngIf="secondControls.password.errors['minlength']">Deve ter no mínimo 6 caracteres</div>
       </div>
     </div>
 
@@ -103,6 +103,7 @@
       <input type="password" class="form-control" [ngClass]="{'is-invalid': submittedSecond && secondControls.passwordConfirmation.errors}" id="inputPasswordConfirmation" formControlName="passwordConfirmation"/>
       <div *ngIf="submittedSecond && secondControls.passwordConfirmation.errors" class="invalid-feedback">
         <div *ngIf="secondControls.passwordConfirmation.errors['required']">Campo obrigatório</div>
+        <div *ngIf="secondControls.passwordConfirmation.errors['minlength']">Deve ter no mínimo 6 caracteres</div>
         <div *ngIf="secondControls.passwordConfirmation.errors['mustMatch']">Deve ser igual a senha</div>
       </div>
     </div>

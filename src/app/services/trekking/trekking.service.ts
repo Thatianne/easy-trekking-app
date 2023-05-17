@@ -17,4 +17,8 @@ export class TrekkingService {
   getById(id: number): Observable<Trekking> {
     return this._apiService.get<Trekking>(`/trekkings/${id}`);
   }
+
+  subscribe(id: number): Observable<void> {
+    return this._apiService.post(`/trekkings/${id}/subscribe`);
+  }
 }

@@ -13,6 +13,7 @@ export interface Trekking {
   durationInHours: number;
   difficultLevel: DifficultLevel,
   descriptions: TrekkingDescription[];
+  prices: TrekkingPrice[]
 }
 
 export interface TrekkingDescription {
@@ -20,7 +21,7 @@ export interface TrekkingDescription {
   description: string;
 }
 
-export interface Price {
+export interface TrekkingPrice {
   id: number;
   price: number;
   startDate: Date;

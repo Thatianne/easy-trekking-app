@@ -1,0 +1,18 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Percurso</th>
+      <!-- <th>Ação</th> -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let trekking of (trekkings$ | async)" (click)="onTrekkingSelect(trekking)">
+      <td>{{trekking.name}}</td>
+      <td>{{trekking.start}} - {{trekking.end}}</td>
+      <!-- <td>
+        <button class="btn btn-danger btn-close"></button>
+      </td> -->
+    </tr>
+  </tbody>
+</table>

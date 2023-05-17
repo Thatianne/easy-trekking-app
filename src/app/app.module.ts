@@ -9,12 +9,13 @@ import { LoginModule } from '@pages/login/login.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TouristGuideRegisterModule } from '@pages/tourist-guide-register/tourist-guide-register.module';
 import { AvailableTrekkingsModule } from '@pages/available-trekkings/available-trekkings.module';
+import { TrekkingDetailsModule } from '@pages/trekking-details/trekkings-details.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    LayoutComponent
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,7 +23,8 @@ import { AvailableTrekkingsModule } from '@pages/available-trekkings/available-t
     AppRoutingModule,
     LoginModule,
     TouristGuideRegisterModule,
-    AvailableTrekkingsModule
+    AvailableTrekkingsModule,
+    TrekkingDetailsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

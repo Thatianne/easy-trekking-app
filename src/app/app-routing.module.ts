@@ -5,6 +5,7 @@ import { LayoutComponent } from './layouts/layout/layout.component';
 import { canActivateUser } from './guards/auth.guard';
 import { TouristGuideRegisterComponent } from '@pages/tourist-guide-register/tourist-guide-register.component';
 import { AvailableTrekkingsComponent } from '@pages/available-trekkings/available-trekkings.component';
+import { TrekkingDetailsComponent } from '@pages/trekking-details/trekking-details.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +18,10 @@ const routes: Routes = [
       {
         path: '',
         component: AvailableTrekkingsComponent
+      },
+      {
+        path: ':id',
+        component: TrekkingDetailsComponent
       }
     ]
   }

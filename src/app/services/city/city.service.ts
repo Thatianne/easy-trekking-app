@@ -11,6 +11,6 @@ export class CityService {
   constructor(private _apiService: ApiService) { }
 
   get(): Observable<City[]> {
-    return this._apiService.get<City[]>('/city');
+    return this._apiService.get<City[]>('/cities');
   }
 }

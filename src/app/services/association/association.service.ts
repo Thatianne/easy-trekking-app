@@ -11,7 +11,7 @@ export class AssociationService {
   constructor(private _apiService: ApiService) { }
 
   get(): Observable<Association[]> {
-    return this._apiService.get<Association[]>('/association');
+    return this._apiService.get<Association[]>('/associations');
   }
 
 }

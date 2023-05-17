@@ -54,6 +54,7 @@ export class TouristGuideRegisterComponent implements OnInit {
   onSubmit(e: MouseEvent): void {
     e.preventDefault();
     this.submittedSecond = true;
+    console.log(this.formFirst, this.formSecond)
     if (this.formFirst.invalid && this.formSecond.invalid) {
       return;
     }

@@ -11,6 +11,6 @@ export class StateService {
   constructor(private _apiService: ApiService) { }
 
   get(): Observable<State[]> {
-    return this._apiService.get<State[]>('/state');
+    return this._apiService.get<State[]>('/states');
   }
 }

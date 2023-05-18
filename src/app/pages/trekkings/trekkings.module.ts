@@ -5,10 +5,11 @@ import { CommonModule } from "@angular/common";
 import { TrekkingsComponent } from "./trekkings.component";
 import { FiltersComponent } from './components/filters/filters.component';
 import { TrekkingsTableComponent } from './components/trekkings-table/trekkings-table.component';
+import { LoadingModule } from "@components/loading/loading.module";
 
 @NgModule({
   declarations: [TrekkingsComponent, FiltersComponent, TrekkingsTableComponent],
-  imports: [CommonModule, LogoModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, LogoModule, ReactiveFormsModule, FormsModule, LoadingModule],
   exports: [TrekkingsComponent]
 })
 export class TrekkingsModule {}

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Trekking } from '@models/trekking';
 import { TrekkingImage } from '@models/trekking-image';
 import { difficultLevelClass } from '@pages/trekking-details/constants/difficult-level-class';
@@ -16,8 +16,13 @@ export class TrekkingItemComponent {
   difficultLeveEnums = DifficultLevelEnum;
 
   @Input() trekking!: Trekking;
+  @Output() onClick: EventEmitter<void> = new EventEmitter();
 
   getSrcImages(images: TrekkingImage[]): string[] {
     return images.map(image => `data:image/jpeg;base64,${image.image}`)
+  }
+
+  handleClick(): void {
+    this.onClick.emit();
   }
 }

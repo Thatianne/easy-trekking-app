@@ -11,6 +11,8 @@ import { TouristGuideRegisterModule } from '@pages/tourist-guide-register/touris
 import { AvailableTrekkingsModule } from '@pages/available-trekkings/available-trekkings.module';
 import { TrekkingDetailsModule } from '@pages/trekking-details/trekkings-details.module';
 import { TrekkingsModule } from '@pages/trekkings/trekkings.module';
+import { LoadingComponent } from './components/loading/loading.component';
+import { LoadingModule } from '@components/loading/loading.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { TrekkingsModule } from '@pages/trekkings/trekkings.module';
     TrekkingDetailsModule,
     TrekkingsModule,
     AvailableTrekkingsModule,
-    TrekkingDetailsModule
+    TrekkingDetailsModule,
+    LoadingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

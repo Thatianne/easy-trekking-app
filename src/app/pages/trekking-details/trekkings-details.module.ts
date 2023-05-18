@@ -7,10 +7,11 @@ import { TrekkingDescriptionComponent } from "./components/trekking-description/
 import { BrowserModule } from "@angular/platform-browser";
 import {  } from '../../components/trekking-carousel/trekking-carousel.component';
 import { TrekkingCarouselModule } from "@components/trekking-carousel/trekking-carousel.module";
+import { LoadingModule } from "@components/loading/loading.module";
 
 @NgModule({
   declarations: [TrekkingDetailsComponent, TrekkingDescriptionComponent],
-  imports: [CommonModule, BrowserModule, LogoModule, ReactiveFormsModule, FormsModule, TrekkingCarouselModule],
+  imports: [CommonModule, BrowserModule, LogoModule, ReactiveFormsModule, FormsModule, TrekkingCarouselModule, LoadingModule],
   exports: [TrekkingDetailsComponent]
 })
 export class TrekkingDetailsModule {}

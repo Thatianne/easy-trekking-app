@@ -7,6 +7,9 @@
     <span>{{trekking.city.value}} - {{trekking.state.value}}</span>
   </div>
 
+  <app-trekking-carousel [srcImages]="trekkingSrcImages$ | async" class="d-block mt-2">
+  </app-trekking-carousel>
+
   <div class="d-flex flex-column mt-3">
     <span>{{trekking.durationInHours}}h - {{trekking.distanceInMeters}}m</span>
     <span>{{trekking.start}} - {{trekking.end}}</span>

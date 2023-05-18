@@ -10,11 +10,11 @@ import { Observable } from 'rxjs';
 import { DifficultLevelEnum } from 'src/app/enums/difficult-level.enum';
 
 @Component({
-  selector: 'app-filters',
-  templateUrl: './filters.component.html',
-  styleUrls: ['./filters.component.scss']
+  selector: 'app-trekking-filters',
+  templateUrl: './trekking-filters.component.html',
+  styleUrls: ['./trekking-filters.component.scss']
 })
-export class FiltersComponent implements OnInit {
+export class TrekkingFiltersComponent implements OnInit {
   isMobile$: Observable<boolean>;
   states$: Observable<State[]> = new Observable();
   cities$: Observable<City[]> = new Observable();

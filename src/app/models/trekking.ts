@@ -1,6 +1,7 @@
 import { City } from "./city";
 import { DifficultLevel } from "./difficult-level";
 import { State } from "./state";
+import { TrekkingImage } from "./trekking-image";
 
 export interface Trekking {
   id: number;
@@ -13,7 +14,8 @@ export interface Trekking {
   durationInHours: number;
   difficultLevel: DifficultLevel,
   descriptions: TrekkingDescription[];
-  prices: TrekkingPrice[]
+  prices: TrekkingPrice[];
+  images: TrekkingImage[]
 }
 
 export interface TrekkingDescription {

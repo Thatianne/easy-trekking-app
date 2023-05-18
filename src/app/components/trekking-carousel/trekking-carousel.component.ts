@@ -7,4 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class TrekkingCarouselComponent {
   @Input() srcImages!: string[] | null;
+
+  @Input() imgHeight: string = '200px';
 }

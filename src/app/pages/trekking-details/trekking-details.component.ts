@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Trekking, TrekkingPrice } from '@models/trekking';
 import { TrekkingService } from '@services/trekking/trekking.service';
-import { Observable, Subject, map, switchMap, take, tap } from 'rxjs';
+import { Observable, Subject, map, take, tap } from 'rxjs';
 import { difficultLevelClass } from './constants/difficult-level-class';
 import { DifficultLevelEnum } from 'src/app/enums/difficult-level.enum';
 import { difficultLevelLabel } from './constants/difficult-level-label';
@@ -17,7 +17,6 @@ export class TrekkingDetailsComponent implements OnInit {
   trekkingDate: string = '';
 
   trekking$: Observable<Trekking> = new Subject();
-  trekkingSrcImages$!: Observable<string[]>;
   price$!: Observable<string>;
 
   difficultLevelBadgdeClass = difficultLevelClass;
@@ -32,13 +31,6 @@ export class TrekkingDetailsComponent implements OnInit {
       tap(params => {
         const id = Number(params.get('id'))
         this.trekking$ = this._trekkingService.getById(id);
-        this.trekkingSrcImages$ = this._trekkingService.getImagesById(id).pipe(
-          map(images => {
-            return images.map(image => {
-              return `data:image/jpeg;base64,${image.image}`
-          })
-        })
-        );
       })
     ).subscribe();
   }
@@ -60,6 +52,10 @@ export class TrekkingDetailsComponent implements OnInit {
           this._trekkingService.subscribe(id).subscribe(() => {console.log('inscrito')});
         }
       })
+  }
+
+  getSrcImages(images: TrekkingImage[]): string[] {
+    return images.map(image => `data:image/jpeg;base64,${image.image}`)
   }
 
   private _searchPrices(): Observable<TrekkingPrice[]> {

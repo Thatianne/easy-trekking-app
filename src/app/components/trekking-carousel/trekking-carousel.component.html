@@ -1,8 +1,8 @@
-<ng-container *ngIf="srcImages; else loading">
+<ng-container *ngIf="srcImages && srcImages.length > 0; else loading">
   <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div *ngFor="let srcImage of srcImages; let isFirst = first" class="carousel-item bg-secondary" [ngClass]="{'active': isFirst}">
-        <img class="d-block w-100 carousel-image" [src]="srcImage" alt="First slide">
+        <img class="d-block w-100 carousel-image" [src]="srcImage" alt="First slide" [style]="{height: imgHeight}">
       </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -17,7 +17,7 @@
 </ng-container>
 
 <ng-template #loading>
-  <div class="bg-secondary w-100 carousel-image">
+  <div class="bg-secondary w-100 carousel-image" [style]="{height: imgHeight}">
   </div>
 </ng-template>
 

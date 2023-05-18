@@ -6,6 +6,7 @@ import { canActivateUser } from './guards/auth.guard';
 import { TouristGuideRegisterComponent } from '@pages/tourist-guide-register/tourist-guide-register.component';
 import { AvailableTrekkingsComponent } from '@pages/available-trekkings/available-trekkings.component';
 import { TrekkingDetailsComponent } from '@pages/trekking-details/trekking-details.component';
+import { TrekkingsComponent } from '@pages/trekkings/trekkings.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,10 +19,18 @@ const routes: Routes = [
     children: [
       {
         path: 'trekkings',
+        component: TrekkingsComponent
+      },
+      {
+        path: 'available-trekkings',
         component: AvailableTrekkingsComponent
       },
       {
         path: 'trekkings/:id',
+        component: TrekkingDetailsComponent
+      },
+      {
+        path: 'available-trekkings/:id',
         component: TrekkingDetailsComponent
       }
     ]

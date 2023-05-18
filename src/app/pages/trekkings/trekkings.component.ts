@@ -6,11 +6,11 @@ import { UserService } from '@services/user/user.service';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-available-trekkings',
-  templateUrl: './available-trekkings.component.html',
-  styleUrls: ['./available-trekkings.component.scss']
+  selector: 'app-trekkings',
+  templateUrl: './trekkings.component.html',
+  styleUrls: ['./trekkings.component.scss']
 })
-export class AvailableTrekkingsComponent implements OnInit {
+export class TrekkingsComponent implements OnInit {
   isMobile$: Observable<boolean>;
   trekkings$: Observable<Trekking[]>;
 
@@ -26,7 +26,7 @@ export class AvailableTrekkingsComponent implements OnInit {
     private _userService: UserService
   ) {
     this.isMobile$ = this._screeResolutionService.isMobile();
-    this.trekkings$ = this._trekkingService.get({ isAvailable: true });
+    this.trekkings$ = this._trekkingService.get();
   }
 
   ngOnInit(): void {

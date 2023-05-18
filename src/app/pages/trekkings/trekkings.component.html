@@ -2,16 +2,10 @@
   <input type="text" class="form-control" [(ngModel)]="search" />
   <button (click)="onSearch($event)" class="btn btn-primary ml-2">Buscar</button>
 </div>
-<button class="btn btn-secondary mt-2" (click)="onOpenFilters()">Filtrar</button>
+<button class="btn btn-secondary mt-3" (click)="onOpenFilters()">Filtrar</button>
 
 <ng-container>
-  <div class="row mt-3">
-    <app-trekking-item
-      *ngFor="let trekking of (trekkings$ | async)"
-      [trekking]="trekking"
-      class="col-6 m-0 p-0"
-    ></app-trekking-item>
-  </div>
+  <app-trekkings-table class="d-block mt-3" [trekkings]="trekkings$ | async"></app-trekkings-table>
 </ng-container>
 
 

@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TouristGuideRegisterModule } from '@pages/tourist-guide-register/tourist-guide-register.module';
 import { AvailableTrekkingsModule } from '@pages/available-trekkings/available-trekkings.module';
 import { TrekkingDetailsModule } from '@pages/trekking-details/trekkings-details.module';
+import { TrekkingsModule } from '@pages/trekkings/trekkings.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,8 @@ import { TrekkingDetailsModule } from '@pages/trekking-details/trekkings-details
     AppRoutingModule,
     LoginModule,
     TouristGuideRegisterModule,
+    TrekkingDetailsModule,
+    TrekkingsModule,
     AvailableTrekkingsModule,
     TrekkingDetailsModule
   ],

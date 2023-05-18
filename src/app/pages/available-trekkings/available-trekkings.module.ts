@@ -4,11 +4,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { AvailableTrekkingsComponent } from "./available-trekkings.component";
 import { FiltersComponent } from './components/filters/filters.component';
-import { TrekkingsTableComponent } from './components/trekkings-table/trekkings-table.component';
+import { TrekkingItemComponent } from "./components/trekking-item/trekking-item.component";
+import { TrekkingCarouselModule } from "@components/trekking-carousel/trekking-carousel.module";
 
 @NgModule({
-  declarations: [AvailableTrekkingsComponent, FiltersComponent, TrekkingsTableComponent],
-  imports: [CommonModule, LogoModule, ReactiveFormsModule, FormsModule],
+  declarations: [AvailableTrekkingsComponent, FiltersComponent, TrekkingItemComponent],
+  imports: [CommonModule, LogoModule, ReactiveFormsModule, FormsModule, TrekkingCarouselModule],
   exports: [AvailableTrekkingsComponent]
 })
 export class AvailableTrekkingsModule {}

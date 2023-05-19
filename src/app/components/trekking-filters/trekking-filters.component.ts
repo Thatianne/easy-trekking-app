@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { NonNullableFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { City } from '@models/city';
 import { State } from '@models/state';
-import { FilterParams } from '@pages/available-trekkings/models/filter-params';
+import { FilterParams } from './models/filter-params';
 import { CityService } from '@services/city/city.service';
 import { ScreenResolutionService } from '@services/screen-resolution/screen-resolution.service';
 import { StateService } from '@services/state/state.service';
@@ -20,10 +20,10 @@ export class TrekkingFiltersComponent implements OnInit {
   cities$: Observable<City[]> = new Observable();
 
   formFilter = this._formBuilder.group({
-    state: [0, []],
-    city: [0, []],
-    durationMin: [0, []],
-    durationMax: [0, []],
+    state: [null, []],
+    city: [null, []],
+    durationMin: [null, []],
+    durationMax: [null, []],
     difficultLevel: [DifficultLevelEnum.Easy, []]
   });
 
@@ -33,7 +33,7 @@ export class TrekkingFiltersComponent implements OnInit {
 
   constructor(
     private _screeResolutionService: ScreenResolutionService,
-    private _formBuilder: NonNullableFormBuilder,
+    private _formBuilder: FormBuilder,
     private _stateService: StateService,
     private _cityService: CityService,
   ) {
@@ -43,10 +43,9 @@ export class TrekkingFiltersComponent implements OnInit {
   ngOnInit(): void {
     this.states$ = this._stateService.get();
     this.cities$ = this._cityService.get();
-
   }
 
-  onSelectLevel(value: DifficultLevelEnum): void {
+  onSelectLevel(value: DifficultLevelEnum | null): void {
     const { controls } = this.formFilter
     this.formFilter.setValue({
       state: controls.state.value,
@@ -65,10 +64,8 @@ export class TrekkingFiltersComponent implements OnInit {
     this.filter.emit({
       state: this.formControls.state.value,
       city: this.formControls.city.value,
-      duration: {
-        min: this.formControls.durationMin.value,
-        max: this.formControls.durationMax.value
-      },
+      durationMin: this.formControls.durationMin.value,
+      durationMax: this.formControls.durationMax.value,
       difficultLevel: this.formControls.difficultLevel.value
     })
   }

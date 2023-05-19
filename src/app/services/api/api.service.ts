@@ -28,11 +28,15 @@ export class ApiService {
   }
 
   getHttpOptions<T>(params: T): HttpOptions {
-    const httpParams = new HttpParams();
+    let httpParams = new HttpParams();
+    // @ts-ignore
+    Object.keys(params).forEach(
+      // @ts-ignore
+      key => params[key] && (httpParams = httpParams.append(key, params[key]))
+    );
 
     return {
-      // @ts-ignore
-      params: httpParams.appendAll(params)
+      params: httpParams
     }
   }
 }

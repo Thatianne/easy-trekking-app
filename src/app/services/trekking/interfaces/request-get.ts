@@ -1,10 +1,10 @@
 export interface IRequestGet {
-  ids?: string;
-  name?: string;
-  state?: number;
-  city?: number;
-  durationInHours?: number;
-  distanceInMeters?: number;
-  difficultLevel?: number;
-  isAvailable?: boolean;
+  ids?: string | null;
+  name?: string | null;
+  state?: number | null;
+  city?: number | null;
+  durationInHours?: number | null;
+  distanceInMeters?: number | null;
+  difficultLevel?: number | null;
+  isAvailable?: boolean | null;
 }

@@ -54,6 +54,9 @@
 
       <input type="radio" class="btn-check d-none" name="difficultLevel" id="difficultLevelDifficult" autocomplete="off" [checked]="formControls.difficultLevel.value === difficultLevelEnum.Difficult">
       <button class="btn btn-outline-primary" [ngClass]="formControls.difficultLevel.value === difficultLevelEnum.Difficult ? ' btn-primary' : ' btn-outline-primary'" for="difficultLevelDifficult" (click)="onSelectLevel(difficultLevelEnum.Difficult)">Difícil</button>
+
+      <input type="radio" class="btn-check d-none" name="difficultLevel" id="difficultLevelAll" autocomplete="off" [checked]="formControls.difficultLevel.value">
+      <button class="btn btn-outline-primary" [ngClass]="!formControls.difficultLevel.value ? ' btn-primary' : ' btn-outline-primary'" for="difficultLevelAll" (click)="onSelectLevel(null)">Todos</button>
     </div>
   </div>
 

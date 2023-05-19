@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { FilterParams } from '@components/trekking-filters/models/filter-params';
 import { Trekking } from '@models/trekking';
 import { ScreenResolutionService } from '@services/screen-resolution/screen-resolution.service';
 import { TrekkingService } from '@services/trekking/trekking.service';
-import { UserService } from '@services/user/user.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-available-trekkings',
@@ -13,10 +13,11 @@ import { Observable } from 'rxjs';
 })
 export class AvailableTrekkingsComponent implements OnInit {
   isMobile$: Observable<boolean>;
-  trekkings$: Observable<Trekking[]>;
+  trekkings$!: Observable<Trekking[]>;
+  filters$ = new BehaviorSubject<FilterParams>({});
+  searchText$ = new BehaviorSubject<string>('');
 
   search: string = '';
-  filtersIsOpen = false;
   formModal: any;
 
   @ViewChild('filtersModal', { static: true }) filtersModal!: ElementRef;
@@ -27,7 +28,13 @@ export class AvailableTrekkingsComponent implements OnInit {
     private _router: Router
   ) {
     this.isMobile$ = this._screeResolutionService.isMobile();
-    this.trekkings$ = this._trekkingService.get({ isAvailable: true });
+    combineLatest([this.filters$, this.searchText$]).subscribe(([filters, searchText]) => {
+      this.trekkings$ = this._trekkingService.get({
+        ...filters,
+        name: searchText,
+        isAvailable: true
+      });
+    });
   }
 
   ngOnInit(): void {
@@ -37,17 +44,17 @@ export class AvailableTrekkingsComponent implements OnInit {
     )
   }
 
-  onSearch(e: MouseEvent): void {
-    // e.preventDefault();
+  onSearch(): void {
+    this.searchText$.next(this.search);
   }
 
   onOpenFilters(): void {
-    // this.filtersIsOpen = true;
     this.formModal.show();
   }
 
-  onCloseFilters(): void {
-    // this.filtersIsOpen = false;
+  filterTrekkings(filters: FilterParams): void {
+    this.filters$.next(filters);
+    this.formModal.hide()
   }
 
   gotToTrekking(trekking: Trekking): void {

@@ -1,6 +1,6 @@
 <div class="d-flex flex-row justify-content-between">
   <input type="text" class="form-control" [(ngModel)]="search" />
-  <button (click)="onSearch($event)" class="btn btn-primary ml-2">Buscar</button>
+  <button (click)="onSearch()" class="btn btn-primary ml-2">Buscar</button>
 </div>
 <button class="btn btn-secondary mt-2" (click)="onOpenFilters()">Filtrar</button>
 
@@ -23,7 +23,7 @@
         <p class="modal-title fs-5">Filtros</p>
       </div>
       <div class="modal-body">
-        <app-trekking-filters></app-trekking-filters>
+        <app-trekking-filters (filter)="filterTrekkings($event)"></app-trekking-filters>
       </div>
     </div>
   </div>

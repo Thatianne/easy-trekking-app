@@ -46,12 +46,7 @@ export class TrekkingFiltersComponent implements OnInit {
   }
 
   onSelectLevel(value: DifficultLevelEnum | null): void {
-    const { controls } = this.formFilter
-    this.formFilter.setValue({
-      state: controls.state.value,
-      city: controls.city.value,
-      durationMin: controls.durationMin.value,
-      durationMax: controls.durationMax.value,
+    this.formFilter.patchValue({
       difficultLevel: value
     })
   }

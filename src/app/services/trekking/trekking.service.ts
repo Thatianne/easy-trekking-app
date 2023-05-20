@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Trekking } from '@models/trekking';
+import { AddTrekkingRequest, Trekking } from '@models/trekking';
 import { TrekkingImage } from '@models/trekking-image';
 import { ApiService } from '@services/api/api.service';
 import { Observable } from 'rxjs';
@@ -27,5 +27,9 @@ export class TrekkingService {
 
   subscribe(id: number): Observable<void> {
     return this._apiService.post(`/trekkings/${id}/subscribe`);
+  }
+
+  add(trekking: AddTrekkingRequest): Observable<void> {
+    return this._apiService.post('/trekkings', trekking);
   }
 }

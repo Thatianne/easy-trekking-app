@@ -1,6 +1,6 @@
 <ng-container *ngIf="isMobile$ | async; else desktop">
   <div class="p-5">
-    <app-logo class="d-block mb-5">
+    <app-logo class="d-block mb-5 mx-auto" style="width: 200px;">
     </app-logo>
     <ng-container *ngTemplateOutlet="loginForm"></ng-container>
   </div>

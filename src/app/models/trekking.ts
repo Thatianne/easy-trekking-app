@@ -29,3 +29,27 @@ export interface TrekkingPrice {
   startDate: Date;
   endDate: Date;
 }
+
+export interface AddTrekkingRequest {
+  name: string;
+  start: string;
+  end: string;
+  state: number;
+  city: number;
+  distanceInMeters: number;
+  durationInHours: number;
+  difficultLevel: number;
+  descriptions: string[];
+  images: string[];
+  prices: AddTrekkingPriceRequest[];
+  minPeople: number;
+  maxPeople: number;
+  daysFormGroup: number;
+  daysCompletePayment: number;
+}
+
+export interface AddTrekkingPriceRequest {
+  startDate: string; // date.toISOString()
+  endDate: string;
+  price: number;
+}

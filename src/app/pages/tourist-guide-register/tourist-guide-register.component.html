@@ -1,6 +1,6 @@
 <ng-container *ngIf="isMobile$ | async; else desktopRegister">
   <div class="h-100 px-3 py-4 d-flex flex-column">
-    <app-logo class="d-block mb-5">
+    <app-logo class="d-block mb-5 mx-auto" style="width: 200px;">
     </app-logo>
     <ng-container *ngTemplateOutlet="mobileRegister"></ng-container>
   </div>

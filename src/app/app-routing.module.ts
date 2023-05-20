@@ -8,6 +8,7 @@ import { AvailableTrekkingsComponent } from '@pages/available-trekkings/availabl
 import { TrekkingDetailsComponent } from '@pages/trekking-details/trekking-details.component';
 import { TrekkingsComponent } from '@pages/trekkings/trekkings.component';
 import { TouristRegisterComponent } from '@pages/tourist-register/tourist-register.component';
+import { AddTrekkingComponent } from '@pages/add-trekking/add-trekking.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,13 +28,13 @@ const routes: Routes = [
         component: TrekkingsComponent
       },
       {
+        path: 'trekkings/create',
+        component: AddTrekkingComponent
+      },
+      {
         path: 'trekkings/:id',
         component: TrekkingDetailsComponent
       },
-      {
-        path: 'available-trekkings/:id',
-        component: TrekkingDetailsComponent
-      }
     ]
   }
 ];

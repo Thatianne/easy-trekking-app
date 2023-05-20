@@ -11,13 +11,7 @@
     <ng-container *ngIf="step === stepEnums.First">
       <div class="d-flex flex-column justify-content-between h-100">
         <ng-container *ngTemplateOutlet="registerFirst"></ng-container>
-        <button type="button" class="btn btn-primary btn-block" (click)="nextStep()">Próximo</button>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="step === stepEnums.Second">
-      <div class="d-flex flex-column justify-content-between h-100">
-        <ng-container *ngTemplateOutlet="registerSecond"></ng-container>
-        <button (click)="onSubmit($event)" class="btn btn-primary btn-block">Cadastrar</button>
+        <button type="button" class="btn btn-primary btn-block" (click)="onSubmit($event)">Cadastrar</button>
       </div>
     </ng-container>
   </form>
@@ -65,50 +59,28 @@
         <div *ngIf="firstControls.address.errors['required']">Campo obrigatório</div>
       </div>
     </div>
-  </div>
-</ng-template>
-
-<ng-template #registerSecond>
-  <div [formGroup]="formSecond">
-    <div class="form-group">
-      <label for="inputAssociation">Associação</label>
-      <select class="custom-select" [ngClass]="{'is-invalid': submittedSecond && secondControls.association.errors}" name="association" id="inputAssociation" formControlName="association">
-        <option value="" selected disabled>Selecione</option>
-        <option *ngFor="let association of (associations$ | async)" [value]="association.value">{{ association.value }}</option>
-      </select>
-      <div *ngIf="submittedSecond && secondControls.association.errors" class="invalid-feedback">
-        <div *ngIf="secondControls.association.errors['required']">Campo obrigatório</div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="inputAssociationCard">Nº da carteira de guia</label>
-      <input type="text" class="form-control" [ngClass]="{'is-invalid': submittedSecond && secondControls.associationCard.errors}" id="inputAssociationCard" formControlName="associationCard" />
-      <div *ngIf="submittedSecond && secondControls.associationCard.errors" class="invalid-feedback">
-        <div *ngIf="secondControls.associationCard.errors['required']">Campo obrigatório</div>
-      </div>
-    </div>
 
     <div class="form-group">
       <label for="inputPassword">Senha</label>
-      <input type="password" class="form-control" [ngClass]="{'is-invalid': submittedSecond && secondControls.password.errors}" id="inputPassword" formControlName="password"/>
-      <div *ngIf="submittedSecond && secondControls.password.errors" class="invalid-feedback">
-        <div *ngIf="secondControls.password.errors['required']">Campo obrigatório</div>
-        <div *ngIf="secondControls.password.errors['minlength']">Deve ter no mínimo 6 caracteres</div>
+      <input type="password" class="form-control" [ngClass]="{'is-invalid': submittedFirst && firstControls.password.errors}" id="inputPassword" formControlName="password"/>
+      <div *ngIf="submittedFirst && firstControls.password.errors" class="invalid-feedback">
+        <div *ngIf="firstControls.password.errors['required']">Campo obrigatório</div>
+        <div *ngIf="firstControls.password.errors['minlength']">Deve ter no mínimo 6 caracteres</div>
       </div>
     </div>
 
     <div class="form-group">
       <label for="inputPasswordConfirmation">Confirmar senha</label>
-      <input type="password" class="form-control" [ngClass]="{'is-invalid': submittedSecond && secondControls.passwordConfirmation.errors}" id="inputPasswordConfirmation" formControlName="passwordConfirmation"/>
-      <div *ngIf="submittedSecond && secondControls.passwordConfirmation.errors" class="invalid-feedback">
-        <div *ngIf="secondControls.passwordConfirmation.errors['required']">Campo obrigatório</div>
-        <div *ngIf="secondControls.passwordConfirmation.errors['minlength']">Deve ter no mínimo 6 caracteres</div>
-        <div *ngIf="secondControls.passwordConfirmation.errors['mustMatch']">Deve ser igual a senha</div>
+      <input type="password" class="form-control" [ngClass]="{'is-invalid': submittedFirst && firstControls.passwordConfirmation.errors}" id="inputPasswordConfirmation" formControlName="passwordConfirmation"/>
+      <div *ngIf="submittedFirst && firstControls.passwordConfirmation.errors" class="invalid-feedback">
+        <div *ngIf="firstControls.passwordConfirmation.errors['required']">Campo obrigatório</div>
+        <div *ngIf="firstControls.passwordConfirmation.errors['minlength']">Deve ter no mínimo 6 caracteres</div>
+        <div *ngIf="firstControls.passwordConfirmation.errors['mustMatch']">Deve ser igual a senha</div>
       </div>
     </div>
   </div>
 </ng-template>
+
 
 <ng-template #desktopRegister>
   <div class="p-5 d-flex flex-column justify-content-center align-items-center">
@@ -116,7 +88,6 @@
     <div class="shadow-sm p-5 bg-white rounded form-box">
       <form>
         <ng-container *ngTemplateOutlet="registerFirst"></ng-container>
-        <ng-container *ngTemplateOutlet="registerSecond"></ng-container>
         <button (click)="onSubmit($event)" class="btn btn-primary btn-block">Cadastrar</button>
       </form>
     </div>

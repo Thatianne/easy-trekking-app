@@ -7,23 +7,24 @@ import { TouristGuideRegisterComponent } from '@pages/tourist-guide-register/tou
 import { AvailableTrekkingsComponent } from '@pages/available-trekkings/available-trekkings.component';
 import { TrekkingDetailsComponent } from '@pages/trekking-details/trekking-details.component';
 import { TrekkingsComponent } from '@pages/trekkings/trekkings.component';
+import { TouristRegisterComponent } from '@pages/tourist-register/tourist-register.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register/tourist-guide', component: TouristGuideRegisterComponent },
+  { path: 'register/tourist', component: TouristRegisterComponent },
   {
     path: '',
     component: LayoutComponent,
     canActivate: [canActivateUser],
-    // redirectTo: 'trekkings',
     children: [
+      {
+        path: '',
+        component: AvailableTrekkingsComponent
+      },
       {
         path: 'trekkings',
         component: TrekkingsComponent
-      },
-      {
-        path: 'available-trekkings',
-        component: AvailableTrekkingsComponent
       },
       {
         path: 'trekkings/:id',

@@ -14,7 +14,7 @@ export class TrekkingService {
   constructor(private _apiService: ApiService) { }
 
   get(params: IRequestGet = {}): Observable<Trekking[]> {
-    return this._apiService.get<Trekking[]>('/trekkings', this._apiService.getHttpOptions(params));
+    return this._apiService.get<Trekking[]>('/trekkings', params);
   }
 
   getById(id: number): Observable<Trekking> {

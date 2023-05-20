@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { DifficultLevelEnum } from 'src/app/enums/difficult-level.enum';
 import { RoleEnum } from 'src/app/enums/role.enum';
 import { AddTrekkingPriceRequest } from '@models/trekking'
+import { UploadFileService } from '@services/upload-file/upload-file.service';
 
 @Component({
   selector: 'app-add-trekking',
@@ -20,6 +21,7 @@ import { AddTrekkingPriceRequest } from '@models/trekking'
 })
 export class AddTrekkingComponent {
   isMobile$: Observable<boolean>;
+  images: string[] = [];
   states$: Observable<State[]> = new Observable();
   cities$: Observable<City[]> = new Observable();
 
@@ -39,7 +41,6 @@ export class AddTrekkingComponent {
       descriptions: this._formBuilder.array([this._formBuilder.group({
         value: []
       })]),
-      images: ['', [Validators.required]],
       prices: this._formBuilder.array([this._formBuilder.group({
         startDate: '',
         endDate: '',
@@ -59,6 +60,7 @@ export class AddTrekkingComponent {
     private _stateService: StateService,
     private _cityService: CityService,
     private _userService: UserService,
+    private _uploadFileService: UploadFileService,
     private _router: Router
   ) {
     this.isMobile$ = this._screeResolutionService.isMobile();
@@ -102,7 +104,7 @@ export class AddTrekkingComponent {
       distanceInMeters: controls.distanceInMeters.value || 0,
       durationInHours: controls.durationInHours.value || 0,
       difficultLevel: controls.difficultLevel.value,
-      images: [],
+      images: this.images,
       descriptions: controls.descriptions.value?.map(description => description.value || '') || [],
       prices: controls.prices.value?.map(price => (
         <AddTrekkingPriceRequest>{
@@ -155,5 +157,17 @@ export class AddTrekkingComponent {
     this.form.patchValue({
       difficultLevel: value
     })
+  }
+
+  async uploadImages(event: Event): Promise<void> {
+    if (event.target) {
+      // @ts-ignore
+      const files = event.target.files;
+      const subscription = this._uploadFileService.upload(files)
+        .subscribe(filesUrl => {
+          this.images = filesUrl;
+          subscription.unsubscribe();
+        })
+    }
   }
 }

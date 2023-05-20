@@ -55,7 +55,7 @@ export class TrekkingDetailsComponent implements OnInit {
   }
 
   getSrcImages(images: TrekkingImage[]): string[] {
-    return images.map(image => `data:image/jpeg;base64,${image.image}`)
+    return images.map(image => image.image) || []
   }
 
   private _searchPrices(): Observable<TrekkingPrice[]> {

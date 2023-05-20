@@ -1,6 +1,6 @@
-<div class="border w-100" (click)="handleClick()">
+<div class="border w-100">
   <app-trekking-carousel imgHeight="100px" [srcImages]="getSrcImages(trekking.images)"></app-trekking-carousel>
-  <div class="d-flex flex-column justify-content-start px-3 py-2">
+  <div class="d-flex flex-column justify-content-start px-3 py-2" (click)="handleClick()">
     <p class="m-0"><strong>{{trekking.name}}</strong></p>
     <span class="mt-2">{{trekking.city.value}} - {{trekking.state.value}}</span>
     <div>

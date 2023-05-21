@@ -73,4 +73,8 @@ export class TrekkingsComponent implements OnInit {
     this.filters$.next(filters);
     this.formModal.hide();
   }
+
+  onAddTrekking(): void {
+    this._router.navigate(['/trekkings/create']);
+  }
 }

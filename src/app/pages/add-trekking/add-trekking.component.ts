@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { City } from '@models/city';
@@ -8,7 +8,7 @@ import { ScreenResolutionService } from '@services/screen-resolution/screen-reso
 import { StateService } from '@services/state/state.service';
 import { TrekkingService } from '@services/trekking/trekking.service';
 import { UserService } from '@services/user/user.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { DifficultLevelEnum } from 'src/app/enums/difficult-level.enum';
 import { RoleEnum } from 'src/app/enums/role.enum';
 import { AddTrekkingPriceRequest } from '@models/trekking'
@@ -24,6 +24,8 @@ export class AddTrekkingComponent {
   images: string[] = [];
   states$: Observable<State[]> = new Observable();
   cities$: Observable<City[]> = new Observable();
+  isSalving$ = new BehaviorSubject(false);
+  @ViewChild('inpuFile') inpuFile!: ElementRef;
 
   difficultLevelEnum = DifficultLevelEnum;
 
@@ -39,7 +41,7 @@ export class AddTrekkingComponent {
       durationInHours: [null, [Validators.required]],
       difficultLevel: [DifficultLevelEnum.Easy, [Validators.required]],
       descriptions: this._formBuilder.array([this._formBuilder.group({
-        value: []
+        value: ['', [Validators.required]]
       })]),
       prices: this._formBuilder.array([this._formBuilder.group({
         startDate: '',
@@ -88,6 +90,7 @@ export class AddTrekkingComponent {
   }
 
   onSubmit(event: Event): void {
+    event.preventDefault()
     const { controls } = this.form;
 
     this.submitted = true;
@@ -95,38 +98,48 @@ export class AddTrekkingComponent {
       return;
     }
 
-    const subscription = this._trekkingService.add({
-      name: controls.name.value,
-      start: controls.start.value,
-      end: controls.end.value,
-      state: controls.state.value || 0,
-      city: controls.city.value || 0,
-      distanceInMeters: controls.distanceInMeters.value || 0,
-      durationInHours: controls.durationInHours.value || 0,
-      difficultLevel: controls.difficultLevel.value,
-      images: this.images,
-      descriptions: controls.descriptions.value?.map(description => description.value || '') || [],
-      prices: controls.prices.value?.map(price => (
-        <AddTrekkingPriceRequest>{
-          startDate: price.startDate,
-          endDate: price.endDate,
-          price: price.price,
-        })) || [],
-      minPeople: controls.minPeople.value,
-      maxPeople: controls.maxPeople.value,
-      daysFormGroup: controls.daysFormGroup.value,
-      daysCompletePayment: controls.daysCompletePayment.value
-    }).subscribe(() => {
-      this._router.navigate(['/trekkings']);
+    this.isSalving$.next(true)
+    // @ts-ignore
+    const files = this.inpuFile.nativeElement.files;
+    const fileSubscription = this._uploadFileService.upload(files)
+      .subscribe(filesUrl => {
+        this.images = filesUrl;
+        fileSubscription.unsubscribe();
 
-      subscription.unsubscribe();
-    })
+        const subscription = this._trekkingService.add({
+          name: controls.name.value,
+          start: controls.start.value,
+          end: controls.end.value,
+          state: controls.state.value || 0,
+          city: controls.city.value || 0,
+          distanceInMeters: controls.distanceInMeters.value || 0,
+          durationInHours: controls.durationInHours.value || 0,
+          difficultLevel: controls.difficultLevel.value,
+          images: this.images,
+          descriptions: controls.descriptions.value?.map(description => description.value || '') || [],
+          prices: controls.prices.value?.map(price => (
+            <AddTrekkingPriceRequest>{
+              startDate: price.startDate,
+              endDate: price.endDate,
+              price: price.price,
+            })) || [],
+          minPeople: controls.minPeople.value,
+          maxPeople: controls.maxPeople.value,
+          daysFormGroup: controls.daysFormGroup.value,
+          daysCompletePayment: controls.daysCompletePayment.value
+        }).subscribe(() => {
+          this.isSalving$.next(false);
+          this._router.navigate(['/trekkings']);
+
+          subscription.unsubscribe();
+        })
+      })
   }
 
   addDescription(event: Event): void {
     event.preventDefault();
     this.descriptions.push(this._formBuilder.group({
-      value: ['']
+      value: ['', [Validators.required]]
     }));
   }
 

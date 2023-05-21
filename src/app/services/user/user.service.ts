@@ -50,4 +50,9 @@ export class UserService {
   getUser(): Observable<User | null> {
     return this.user$.asObservable();
   }
+
+  logout(): void {
+    this._localStorageService.delete(LocalStorageKeysEnum.User);
+    this.user$.next(null);
+  }
 }

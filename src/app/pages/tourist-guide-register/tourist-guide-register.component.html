@@ -2,6 +2,10 @@
   <div class="h-100 px-3 py-4 d-flex flex-column">
     <app-logo class="d-block mb-5 mx-auto" style="width: 200px;">
     </app-logo>
+    <div class="d-flex flex-row justify-content-between">
+      <h5>Guia turístico</h5>
+      <a routerLink="/register/tourist">É um turista?</a>
+    </div>
     <ng-container *ngTemplateOutlet="mobileRegister"></ng-container>
   </div>
 </ng-container>
@@ -112,8 +116,12 @@
 
 <ng-template #desktopRegister>
   <div class="p-5 d-flex flex-column justify-content-center align-items-center">
-    <app-logo class=""></app-logo>
-    <div class="shadow-sm p-5 bg-white rounded form-box">
+    <app-logo class="d-block mb-4" style="max-width: 250px;"></app-logo>
+    <div class="shadow p-5 bg-white rounded form-box">
+      <div class="d-flex flex-row justify-content-between">
+        <h5>Guia turístico</h5>
+        <a routerLink="/register/tourist">É um turista?</a>
+      </div>
       <form>
         <ng-container *ngTemplateOutlet="registerFirst"></ng-container>
         <ng-container *ngTemplateOutlet="registerSecond"></ng-container>

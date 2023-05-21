@@ -1,6 +1,6 @@
 <ng-container *ngIf="isMobile$ | async; else desktop">
   <div class="p-5">
-    <app-logo class="d-block mb-5 mx-auto" style="width: 200px;">
+    <app-logo class="d-block py-5 mx-auto" style="width: 200px;">
     </app-logo>
     <ng-container *ngTemplateOutlet="loginForm"></ng-container>
   </div>
@@ -8,7 +8,7 @@
 
 
 <ng-template #loginForm>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-5 d-block">
       <div class="form-group">
         <label for="inputEmail">E-mail</label>
         <input type="email" class="form-control" id="inputEmail" formControlName="email" />
@@ -19,14 +19,15 @@
         <input type="password" class="form-control" id="inputPassword" formControlName="password"/>
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+      <button type="submit" class="btn btn-primary btn-block mt-5">Entrar</button>
+      <p class="mt-2">Não possui uma conta? <a routerLink="/register/tourist">Cadastre-se</a></p>
   </form>
 </ng-template>
 
 <ng-template #desktop>
   <div class="p-5 row">
-    <app-logo class="col-8 col-sm-6"></app-logo>
-    <div class="shadow-sm p-3 bg-white rounded col-4 col-sm-6">
+    <app-logo class="col-7 col-md-6 col-sm-5 d-flex flex-column justify-content-center"></app-logo>
+    <div class="shadow p-4 bg-white rounded col-4 col-md-5 col-sm-6 ml-auto">
       <ng-container *ngTemplateOutlet="loginForm"></ng-container>
     </div>
   </div>

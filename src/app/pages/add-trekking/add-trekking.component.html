@@ -9,7 +9,9 @@
   <form class="d-block h-100" (submit)="onSubmit($event)">
     <div class="d-flex flex-column justify-content-between h-100">
       <ng-container *ngTemplateOutlet="addTrekking"></ng-container>
-      <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+      <button type="submit" class="btn btn-primary btn-block" [ngClass]="{'disabled': (isSalving$ | async)}" [attr.aria-disabled]="(isSalving$ | async)">
+        {{ (isSalving$ | async) ? "Adicionando..." : "Adicionar" }}
+      </button>
     </div>
   </form>
 </ng-template>
@@ -380,12 +382,12 @@
 
 <ng-template #desktopRegister>
   <div class="p-5 d-flex flex-column justify-content-start align-items-start">
-    <h5 class="mb-3">Adicionar trekking</h5>
-    <div class="shadow-sm p-5 bg-white rounded form-box">
+    <div class="shadow p-5 bg-white rounded form-box">
+      <h5 class="mb-3">Adicionar trekking</h5>
       <form (submit)="onSubmit($event)">
         <ng-container *ngTemplateOutlet="addTrekking"></ng-container>
-        <button type="submit" class="btn btn-primary btn-block" [ngClass]="{'disabled': !(isSalving$ | async)}" [attr.aria-disabled]="(isSalving$ | async)">
-          {{ (isSalving$ | async) ? "Adicionar" : "Adicionando..." }}
+        <button type="submit" class="btn btn-primary btn-block" [ngClass]="{'disabled': (isSalving$ | async)}" [attr.aria-disabled]="(isSalving$ | async)">
+          {{ (isSalving$ | async) ? "Adicionando..." : "Adicionar" }}
         </button>
       </form>
     </div>

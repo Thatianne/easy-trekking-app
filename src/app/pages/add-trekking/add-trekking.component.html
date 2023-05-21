@@ -68,7 +68,7 @@
         [ngClass]="{ 'is-invalid': submitted && controls.state.errors }"
         [ngClass]="{ 'is-invalid': submitted && controls.state.errors }"
       >
-        <option [value]="null" selected disabled>Selecione</option>
+        <option value="0" selected disabled>Selecione</option>
         <option *ngFor="let state of states$ | async" [value]="state.id">
           {{ state.value }}
         </option>
@@ -87,7 +87,7 @@
         formControlName="city"
         [ngClass]="{ 'is-invalid': submitted && controls.city.errors }"
       >
-        <option [value]="null" selected disabled>Selecione</option>
+        <option value="0" selected disabled>Selecione</option>
         <option *ngFor="let city of cities$ | async" [value]="city.id">
           {{ city.value }}
         </option>

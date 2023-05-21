@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="mt-3">
+      <div class="mt-3" *ngIf="(user$ | async)?.role?.id === roleEnum.TouristGuide">
         <div class="form-group">
           <label for="trekkingDate">Data</label>
           <input type="date" class="form-control" id="trekkingDate" [(ngModel)]="trekkingDate" (change)="changedDate($event)">

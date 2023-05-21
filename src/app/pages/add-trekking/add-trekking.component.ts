@@ -1,6 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { City } from '@models/city';
 import { State } from '@models/state';
 import { CityService } from '@services/city/city.service';
@@ -8,10 +8,10 @@ import { ScreenResolutionService } from '@services/screen-resolution/screen-reso
 import { StateService } from '@services/state/state.service';
 import { TrekkingService } from '@services/trekking/trekking.service';
 import { UserService } from '@services/user/user.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, take, tap } from 'rxjs';
 import { DifficultLevelEnum } from 'src/app/enums/difficult-level.enum';
 import { RoleEnum } from 'src/app/enums/role.enum';
-import { AddTrekkingPriceRequest } from '@models/trekking'
+import { AddTrekkingPriceRequest, Trekking } from '@models/trekking'
 import { UploadFileService } from '@services/upload-file/upload-file.service';
 
 @Component({
@@ -19,26 +19,28 @@ import { UploadFileService } from '@services/upload-file/upload-file.service';
   templateUrl: './add-trekking.component.html',
   styleUrls: ['./add-trekking.component.scss']
 })
-export class AddTrekkingComponent {
+export class AddTrekkingComponent implements OnInit {
   isMobile$: Observable<boolean>;
   images: string[] = [];
   states$: Observable<State[]> = new Observable();
   cities$: Observable<City[]> = new Observable();
   isSalving$ = new BehaviorSubject(false);
+  trekking$!: Observable<Trekking>;
+  trekkingId: number = 0;
   @ViewChild('inpuFile') inpuFile!: ElementRef;
 
   difficultLevelEnum = DifficultLevelEnum;
-
+  isEdit = false;
   submitted = false;
   form = this._formBuilder.group(
     {
       name: ['', [Validators.required]],
       start: ['', [Validators.required]],
       end: ['', [Validators.required]],
-      state: [null, [Validators.required]],
-      city: [null, [Validators.required]],
-      distanceInMeters: [null, [Validators.required]],
-      durationInHours: [null, [Validators.required]],
+      state: [0, [Validators.required]],
+      city: [0, [Validators.required]],
+      distanceInMeters: ['', [Validators.required]],
+      durationInHours: ['', [Validators.required]],
       difficultLevel: [DifficultLevelEnum.Easy, [Validators.required]],
       descriptions: this._formBuilder.array([this._formBuilder.group({
         value: ['', [Validators.required]]
@@ -57,13 +59,14 @@ export class AddTrekkingComponent {
 
   constructor(
     private _screeResolutionService: ScreenResolutionService,
-    private _formBuilder: NonNullableFormBuilder,
+    private _formBuilder: FormBuilder,
     private _trekkingService: TrekkingService,
     private _stateService: StateService,
     private _cityService: CityService,
     private _userService: UserService,
     private _uploadFileService: UploadFileService,
-    private _router: Router
+    private _router: Router,
+    private _route: ActivatedRoute,
   ) {
     this.isMobile$ = this._screeResolutionService.isMobile();
 
@@ -75,6 +78,25 @@ export class AddTrekkingComponent {
         this._router.navigate(['/']);
       }
     });
+  }
+
+  ngOnInit(): void {
+    this._route.paramMap
+      .pipe(
+        take(1),
+        tap((params) => {
+          const id = Number(params.get('id'));
+          if (id) {
+            this.trekkingId = id;
+            this.trekking$ = this._trekkingService.getById(id)
+            this.trekking$.subscribe(trekking => {
+                this._setEditTrekking(trekking);
+              });
+            this.isEdit = true;
+          }
+        })
+      )
+      .subscribe();
   }
 
   get controls() {
@@ -106,15 +128,15 @@ export class AddTrekkingComponent {
         this.images = filesUrl;
         fileSubscription.unsubscribe();
 
-        const subscription = this._trekkingService.add({
-          name: controls.name.value,
-          start: controls.start.value,
-          end: controls.end.value,
+        const trekking = {
+          name: controls.name.value || '',
+          start: controls.start.value || '',
+          end: controls.end.value || '',
           state: controls.state.value || 0,
           city: controls.city.value || 0,
-          distanceInMeters: controls.distanceInMeters.value || 0,
-          durationInHours: controls.durationInHours.value || 0,
-          difficultLevel: controls.difficultLevel.value,
+          distanceInMeters: +(controls.distanceInMeters.value || 0),
+          durationInHours: +(controls.durationInHours.value || 0),
+          difficultLevel: controls.difficultLevel.value || DifficultLevelEnum.Easy,
           images: this.images,
           descriptions: controls.descriptions.value?.map(description => description.value || '') || [],
           prices: controls.prices.value?.map(price => (
@@ -123,16 +145,27 @@ export class AddTrekkingComponent {
               endDate: price.endDate,
               price: price.price,
             })) || [],
-          minPeople: controls.minPeople.value,
-          maxPeople: controls.maxPeople.value,
-          daysFormGroup: controls.daysFormGroup.value,
-          daysCompletePayment: controls.daysCompletePayment.value
-        }).subscribe(() => {
-          this.isSalving$.next(false);
-          this._router.navigate(['/trekkings']);
+          minPeople: controls.minPeople.value || 0,
+          maxPeople: controls.maxPeople.value || 0,
+          daysFormGroup: controls.daysFormGroup.value || 0,
+          daysCompletePayment: controls.daysCompletePayment.value || 0
+        }
 
-          subscription.unsubscribe();
-        })
+        if (this.isEdit) {
+          const subscription = this._trekkingService.edit(this.trekkingId, trekking).subscribe(() => {
+            this.isSalving$.next(false);
+            this._router.navigate(['/trekkings']);
+
+            subscription.unsubscribe();
+          });
+        } else {
+          const subscription = this._trekkingService.add(trekking).subscribe(() => {
+            this.isSalving$.next(false);
+            this._router.navigate(['/trekkings']);
+
+            subscription.unsubscribe();
+          });
+        }
       })
   }
 
@@ -182,5 +215,38 @@ export class AddTrekkingComponent {
           subscription.unsubscribe();
         })
     }
+  }
+
+  private _setEditTrekking(trekking: Trekking): void {
+    this.descriptions.clear();
+    this.prices.clear();
+    trekking.descriptions.forEach(description => {
+      this.descriptions.push(this._formBuilder.group({
+        value: [description.description, [Validators.required]]
+      }));
+    })
+
+    trekking.prices.forEach(price => {
+      this.prices.push(this._formBuilder.group({
+        startDate: price.startDate.split('T')[0],
+        endDate: price.endDate.split('T')[0],
+        price: price.price
+      }));
+    })
+
+    this.form.patchValue({
+      name: trekking.name,
+      start: trekking.start,
+      end: trekking.end,
+      state: trekking.state.id,
+      city: trekking.city.id,
+      distanceInMeters: `${trekking.distanceInMeters}`,
+      durationInHours: `${trekking.durationInHours}`,
+      difficultLevel: trekking.difficultLevel.id,
+      minPeople: trekking.minPeople,
+      maxPeople: trekking.maxPeople,
+      daysFormGroup: trekking.daysFormGroup,
+      daysCompletePayment: trekking.daysCompletePayment,
+    })
   }
 }

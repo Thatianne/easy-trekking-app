@@ -32,6 +32,10 @@ const routes: Routes = [
         component: AddTrekkingComponent
       },
       {
+        path: 'trekkings/edit/:id',
+        component: AddTrekkingComponent
+      },
+      {
         path: 'trekkings/:id',
         component: TrekkingDetailsComponent
       },

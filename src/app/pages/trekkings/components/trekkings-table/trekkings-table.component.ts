@@ -13,6 +13,6 @@ export class TrekkingsTableComponent {
   constructor(private _router: Router) {}
 
   onTrekkingSelect(trekking: Trekking): void {
-    this._router.navigate([`/trekkings/${trekking.id}`]);
+    this._router.navigate([`/trekkings/edit/${trekking.id}`]);
   }
 }

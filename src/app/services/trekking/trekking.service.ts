@@ -4,7 +4,6 @@ import { TrekkingImage } from '@models/trekking-image';
 import { ApiService } from '@services/api/api.service';
 import { Observable } from 'rxjs';
 import { IRequestGet } from './interfaces/request-get';
-import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +30,9 @@ export class TrekkingService {
 
   add(trekking: AddTrekkingRequest): Observable<void> {
     return this._apiService.post('/trekkings', trekking);
+  }
+
+  edit(id: number, trekking: AddTrekkingRequest): Observable<void> {
+    return this._apiService.put(`/trekkings/${id}`, trekking);
   }
 }

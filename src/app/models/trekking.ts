@@ -15,7 +15,11 @@ export interface Trekking {
   difficultLevel: DifficultLevel,
   descriptions: TrekkingDescription[];
   prices: TrekkingPrice[];
-  images: TrekkingImage[]
+  images: TrekkingImage[];
+  minPeople: number;
+  maxPeople: number;
+  daysFormGroup: number;
+  daysCompletePayment: number;
 }
 
 export interface TrekkingDescription {
@@ -26,8 +30,8 @@ export interface TrekkingDescription {
 export interface TrekkingPrice {
   id: number;
   price: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
 }
 
 export interface AddTrekkingRequest {

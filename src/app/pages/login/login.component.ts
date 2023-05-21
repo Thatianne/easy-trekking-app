@@ -4,6 +4,9 @@ import { ScreenResolutionService } from '@services/screen-resolution/screen-reso
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '@services/user/user.service';
 import { Router } from '@angular/router';
+import { User } from '@models/user';
+import { RoleEnum } from 'src/app/enums/role.enum';
+import { HomeGuardService } from '@services/home-guard/home-guard.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +21,7 @@ export class LoginComponent implements OnInit {
     private _screeResolutionService: ScreenResolutionService,
     private _formBuilder: FormBuilder,
     private _userService: UserService,
+    private _homeGuardService: HomeGuardService,
     private _router: Router
   ) {
     this.isMobile$ = this._screeResolutionService.isMobile();
@@ -30,7 +34,12 @@ export class LoginComponent implements OnInit {
     })
 
     if (this._userService.isLoggedIn()) {
-      this._router.navigateByUrl('/');
+      this._userService.getUser()
+        .subscribe(user => {
+          if (user) {
+            this._homeGuardService.redirectToMainPage(user);
+          }
+        })
     }
   }
 
@@ -44,7 +53,7 @@ export class LoginComponent implements OnInit {
     this._userService.login(controls['email'].value, controls['password'].value)
       .pipe(first())
       .subscribe(user => {
-        this._router.navigateByUrl('/');
+        this._homeGuardService.redirectToMainPage(user);
       })
   }
 }

@@ -17,10 +17,10 @@ import { RoleEnum } from 'src/app/enums/role.enum';
 
 @Component({
   selector: 'app-trekkings',
-  templateUrl: './trekkings.component.html',
-  styleUrls: ['./trekkings.component.scss'],
+  templateUrl: './enable-guide-trekkings.component.html',
+  styleUrls: ['./enable-guide-trekkings.component.scss'],
 })
-export class TrekkingsComponent implements OnInit {
+export class EnableGuideTrekkingsComponent implements OnInit {
   isMobile$: Observable<boolean>;
   trekkings$!: Observable<Trekking[]>;
   filters$ = new BehaviorSubject<FilterParams>({});
@@ -49,7 +49,7 @@ export class TrekkingsComponent implements OnInit {
 
     this._userService.getUser().subscribe((user) => {
       if (user?.role.id === RoleEnum.Tourist) {
-        this._router.navigate(['/admin/trekkings']);
+        this._router.navigate(['/trekkings']);
       }
     });
   }
@@ -75,6 +75,6 @@ export class TrekkingsComponent implements OnInit {
   }
 
   onAddTrekking(): void {
-    this._router.navigate(['/admin/trekkings/create']);
+    // this._router.navigate(['/tourist-guide/trekkings']);
   }
 }

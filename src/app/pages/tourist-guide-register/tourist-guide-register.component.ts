@@ -73,7 +73,7 @@ export class TouristGuideRegisterComponent implements OnInit {
       password: controlsSecond.password.value,
       associations: [controlsSecond.association.value],
     }).subscribe(() => {
-      this._router.navigate(['/trekkings']);
+      this._router.navigate(['/tourist-guide/trekkings']);
       subscription.unsubscribe();
     });
   }

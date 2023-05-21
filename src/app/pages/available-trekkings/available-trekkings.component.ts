@@ -43,7 +43,7 @@ export class AvailableTrekkingsComponent implements OnInit {
 
     this._userService.getUser().subscribe((user) => {
       if (user?.role.id === RoleEnum.TouristGuide) {
-        this._router.navigate(['/trekkings']);
+        this._router.navigate(['/tourist-guide/trekkings']);
       }
     });
   }

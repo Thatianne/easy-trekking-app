@@ -65,7 +65,7 @@ export class TouristRegisterComponent {
         password: controls.password.value,
       })
       .subscribe(() => {
-        this._router.navigate(['/']);
+        this._router.navigate(['/trekkings']);
         subscription.unsubscribe();
       });
   }

@@ -9,6 +9,9 @@ import { TrekkingDetailsComponent } from '@pages/trekking-details/trekking-detai
 import { TrekkingsComponent } from '@pages/trekkings/trekkings.component';
 import { TouristRegisterComponent } from '@pages/tourist-register/tourist-register.component';
 import { AddTrekkingComponent } from '@pages/add-trekking/add-trekking.component';
+import { EnableGuideTrekkingsComponent } from '@pages/enable-guide-trekkings/enable-guide-trekkings.component';
+import { canActivateHome } from './guards/home.guard';
+import { EmptyComponent } from '@pages/empty/empty.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -21,24 +24,48 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AvailableTrekkingsComponent
+        component: EmptyComponent,
+        canActivate: [canActivateHome]
       },
       {
         path: 'trekkings',
-        component: TrekkingsComponent
+        children: [
+          {
+            path: '',
+            component: AvailableTrekkingsComponent,
+          },
+          {
+            path: ':id',
+            component: TrekkingDetailsComponent,
+          },
+        ]
       },
       {
-        path: 'trekkings/create',
-        component: AddTrekkingComponent
+        path: 'admin',
+        children: [
+          {
+            path: 'trekkings',
+            component: TrekkingsComponent
+          },
+          {
+            path: 'trekkings/:id',
+            component: AddTrekkingComponent
+          },
+          {
+            path: 'trekkings/create',
+            component: AddTrekkingComponent
+          }
+        ]
       },
       {
-        path: 'trekkings/edit/:id',
-        component: AddTrekkingComponent
-      },
-      {
-        path: 'trekkings/:id',
-        component: TrekkingDetailsComponent
-      },
+        path: 'tourist-guide',
+        children: [
+          {
+            path: 'trekkings',
+            component: EnableGuideTrekkingsComponent
+          }
+        ]
+      }
     ]
   }
 ];

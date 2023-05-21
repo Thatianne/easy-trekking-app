@@ -14,12 +14,15 @@ import { TrekkingsModule } from '@pages/trekkings/trekkings.module';
 import { LoadingModule } from '@components/loading/loading.module';
 import { TouristRegisterModule } from '@pages/tourist-register/tourist-register.module';
 import { AddTrekkingModule } from '@pages/add-trekking/add-trekking.module';
+import { EnableGuideTrekkingsModule } from '@pages/enable-guide-trekkings/enable-guide-trekkings.module';
+import { EmptyComponent } from './pages/empty/empty.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    LayoutComponent
+    LayoutComponent,
+    EmptyComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +36,7 @@ import { AddTrekkingModule } from '@pages/add-trekking/add-trekking.module';
     AvailableTrekkingsModule,
     TrekkingDetailsModule,
     AddTrekkingModule,
+    EnableGuideTrekkingsModule,
     LoadingModule
   ],
   providers: [],

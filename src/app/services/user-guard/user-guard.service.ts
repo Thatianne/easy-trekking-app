@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '@services/user/user.service';
 import { Observable, tap } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { Observable, tap } from 'rxjs';
 })
 export class UserGuardService {
 
-  constructor(private _userService: UserService, private _router: Router) {}
+  constructor(private _userService: UserService, private _router: Router, private _activatedRoute: ActivatedRoute) {}
 
   canActivate(): Observable<boolean> {
     return this._userService.isLoggedIn().pipe(

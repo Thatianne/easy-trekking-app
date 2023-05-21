@@ -75,7 +75,7 @@ export class AddTrekkingComponent implements OnInit {
 
     this._userService.getUser().subscribe((user) => {
       if (user?.role.id !== RoleEnum.Administrator) {
-        this._router.navigate(['/']);
+        this._router.navigate(['/admin/trekkings']);
       }
     });
   }
@@ -154,14 +154,14 @@ export class AddTrekkingComponent implements OnInit {
         if (this.isEdit) {
           const subscription = this._trekkingService.edit(this.trekkingId, trekking).subscribe(() => {
             this.isSalving$.next(false);
-            this._router.navigate(['/trekkings']);
+            this._router.navigate(['/admin/trekkings']);
 
             subscription.unsubscribe();
           });
         } else {
           const subscription = this._trekkingService.add(trekking).subscribe(() => {
             this.isSalving$.next(false);
-            this._router.navigate(['/trekkings']);
+            this._router.navigate(['/admin/trekkings']);
 
             subscription.unsubscribe();
           });

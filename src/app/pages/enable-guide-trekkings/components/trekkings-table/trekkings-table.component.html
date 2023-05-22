@@ -7,15 +7,24 @@
     </tr>
   </thead>
   <tbody *ngIf="trekkings; else loading">
-    <tr *ngFor="let trekking of trekkings">
-      <td>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" disabled checked>
-        </div>
-      </td>
-      <td>{{trekking.name}}</td>
-      <td>{{trekking.city.value}} - {{trekking.state.value}}</td>
-    </tr>
+    <ng-container [formGroup]="form">
+      <ng-container formArrayName="trekkings">
+        <tr *ngFor="let trekking of trekkings; let i = index">
+          <td [formGroupName]="i">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [checked]="formTrekkings.controls.at(i)?.value?.value || false"
+                formControlName="value"
+              />
+            </div>
+          </td>
+          <td>{{ trekking.name }}</td>
+          <td>{{ trekking.city.value }} - {{ trekking.state.value }}</td>
+        </tr>
+      </ng-container>
+    </ng-container>
   </tbody>
   <ng-template #loading>
     <app-loading class="d-block mt-3"></app-loading>

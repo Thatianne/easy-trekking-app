@@ -22,6 +22,7 @@ export class TrekkingDetailsComponent implements OnInit {
   trekking$: Observable<Trekking> = new Subject();
   price$!: Observable<string>;
   user$!: Observable<User | null>;
+  userId: number = 0;
 
   difficultLevelBadgdeClass = difficultLevelClass;
   difficultLevelBadgdeLabel = difficultLevelLabel;
@@ -46,6 +47,9 @@ export class TrekkingDetailsComponent implements OnInit {
       .subscribe();
 
     this.user$ = this._userService.getUser();
+    this.user$.subscribe(user => {
+      this.userId = user?.id || 0
+    });
   }
 
   changedDate(event: Event): void {
@@ -60,8 +64,7 @@ export class TrekkingDetailsComponent implements OnInit {
     event.preventDefault();
     this.price$.pipe(take(1)).subscribe((price) => {
       if (price) {
-        this._trekkingService.subscribe(id).subscribe(() => {
-          console.log('inscrito');
+        this._trekkingService.subscribe(id, this.userId, new Date(this.trekkingDate)).subscribe(() => {
         });
       }
     });

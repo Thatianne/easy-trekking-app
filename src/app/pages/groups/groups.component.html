@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-12 col-md-8 col-lg-6 mx-auto my-0">
+    <ng-container>
+      <app-groups-table
+        #table
+        class="d-block mt-3"
+        [groups]="(groups$ | async)"
+      ></app-groups-table>
+    </ng-container>
+  </div>
+</div>
+

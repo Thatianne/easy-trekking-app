@@ -13,6 +13,7 @@ import { EnableGuideTrekkingsComponent } from '@pages/enable-guide-trekkings/ena
 import { canActivateHome } from './guards/home.guard';
 import { EmptyComponent } from '@pages/empty/empty.component';
 import { ExecuteAutomatedTasksComponent } from '@pages/execute-automated-tasks/execute-automated-tasks.component';
+import { GroupsComponent } from '@pages/groups/groups.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -59,6 +60,10 @@ const routes: Routes = [
           {
             path: 'automated-tasks',
             component: ExecuteAutomatedTasksComponent
+          },
+          {
+            path: 'groups',
+            component: GroupsComponent
           }
         ]
       },

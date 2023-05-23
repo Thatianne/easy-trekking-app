@@ -17,6 +17,7 @@ import { AddTrekkingModule } from '@pages/add-trekking/add-trekking.module';
 import { EnableGuideTrekkingsModule } from '@pages/enable-guide-trekkings/enable-guide-trekkings.module';
 import { EmptyComponent } from './pages/empty/empty.component';
 import { ExecuteAutomatedTasksModule } from '@pages/execute-automated-tasks/execute-automated-tasks.module';
+import { GroupsModule } from '@pages/groups/groups.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ExecuteAutomatedTasksModule } from '@pages/execute-automated-tasks/exec
     AddTrekkingModule,
     EnableGuideTrekkingsModule,
     LoadingModule,
-    ExecuteAutomatedTasksModule
+    ExecuteAutomatedTasksModule,
+    GroupsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -24,8 +24,10 @@ export class TrekkingService {
     return this._apiService.get<TrekkingImage[]>(`/trekkings/${id}/images`);
   }
 
-  subscribe(id: number): Observable<void> {
-    return this._apiService.post(`/trekkings/${id}/subscribe`);
+  subscribe(trekkingId: number, userId: number, date: Date): Observable<void> {
+    return this._apiService.post(`/trekkings/${trekkingId}/subscribe/${userId}`, {
+      date: date.toISOString()
+    });
   }
 
   add(trekking: AddTrekkingRequest): Observable<void> {

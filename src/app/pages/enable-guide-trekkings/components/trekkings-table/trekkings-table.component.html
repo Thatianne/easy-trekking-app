@@ -10,15 +10,22 @@
     <ng-container [formGroup]="form">
       <ng-container formArrayName="trekkings">
         <tr *ngFor="let trekking of trekkings; let i = index">
-          <td [formGroupName]="i">
-            <div class="form-check">
+          <td>
+            <div class="form-check" *ngIf="form.value.trekkings?.at(i); else formNotSetted" [formGroupName]="i">
               <input
                 class="form-check-input"
                 type="checkbox"
-                [checked]="formTrekkings.controls.at(i)?.value?.value || false"
                 formControlName="value"
               />
             </div>
+            <ng-template #formNotSetted>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                />
+              </div>
+            </ng-template>
           </td>
           <td>{{ trekking.name }}</td>
           <td>{{ trekking.city.value }} - {{ trekking.state.value }}</td>

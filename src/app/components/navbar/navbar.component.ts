@@ -13,37 +13,39 @@ interface MenuOption {
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
   user$!: Observable<User | null>;
   menuOptions$ = new BehaviorSubject<MenuOption[]>([]);
 
-  constructor(private _userService: UserService, private _router: Router){}
+  constructor(private _userService: UserService, private _router: Router) {}
 
   ngOnInit(): void {
     this.user$ = this._userService.getUser();
 
-    this.user$.subscribe(user => {
+    this.user$.subscribe((user) => {
       if (user?.role.id) {
         if (user.role.id === RoleEnum.Administrator) {
-          this.menuOptions$.next([{
-            label: 'Trekkings',
-            link: 'admin/trekkings'
-          },
-          {
-            label: 'Tarefas',
-            link: 'admin/automated-tasks'
-          },
-          {
-            label: 'Grupos',
-            link: 'admin/groups'
-          }])
+          this.menuOptions$.next([
+            {
+              label: 'Trekkings',
+              link: 'admin/trekkings',
+            },
+            {
+              label: 'Grupos',
+              link: 'admin/groups',
+            },
+            {
+              label: 'Tarefas',
+              link: 'admin/automated-tasks',
+            },
+          ]);
         } else {
-          this.menuOptions$.next([])
+          this.menuOptions$.next([]);
         }
       }
-    })
+    });
   }
 
   onLogout(): void {

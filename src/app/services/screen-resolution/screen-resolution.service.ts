@@ -15,7 +15,7 @@ export class ScreenResolutionService {
 
   isMobile(): Observable<boolean> {
     return this._breakpointObserver
-      .observe([Breakpoints.XSmall])
+      .observe([Breakpoints.Small, Breakpoints.XSmall])
       .pipe(
         map((state: BreakpointState) => state.matches)
       );

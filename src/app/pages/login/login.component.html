@@ -1,35 +1,53 @@
 <ng-container *ngIf="isMobile$ | async; else desktop">
   <div class="p-5">
-    <app-logo class="d-block py-5 mx-auto" style="width: 200px;">
-    </app-logo>
+    <app-logo class="d-block py-5 mx-auto" style="width: 200px"> </app-logo>
     <ng-container *ngTemplateOutlet="loginForm"></ng-container>
   </div>
 </ng-container>
 
-
 <ng-template #loginForm>
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-5 d-block">
-      <div class="form-group">
-        <label for="inputEmail">E-mail</label>
-        <input type="email" class="form-control" id="inputEmail" formControlName="email" />
-      </div>
 
-      <div class="form-group">
-        <label for="inputPassword">Senha</label>
-        <input type="password" class="form-control" id="inputPassword" formControlName="password"/>
-      </div>
+    <div class="form-group">
+      <label for="inputEmail">E-mail</label>
+      <input
+        type="email"
+        class="form-control"
+        id="inputEmail"
+        formControlName="email"
+        [ngClass]="{'is-invalid': showNotFoundMessage$ | async}"
+      />
+    </div>
 
-      <button type="submit" class="btn btn-primary btn-block mt-5">Entrar</button>
-      <p class="mt-2">Não possui uma conta? <a routerLink="/register/tourist">Cadastre-se</a></p>
+    <div class="form-group">
+      <label for="inputPassword">Senha</label>
+      <input
+        type="password"
+        class="form-control"
+        id="inputPassword"
+        formControlName="password"
+        [ngClass]="{'is-invalid': showNotFoundMessage$ | async}"
+      />
+      <div class="invalid-feedback" *ngIf="(showNotFoundMessage$ | async)">
+        <div>Usuário ou senha inválido</div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block mt-5" [ngClass]="{'disabled': (isSubmitting$ | async)}" [attr.aria-disabled]="(isSubmitting$ | async)">Entrar</button>
+    <p class="mt-2">
+      Não possui uma conta? <a routerLink="/register/tourist">Cadastre-se</a>
+    </p>
   </form>
 </ng-template>
 
 <ng-template #desktop>
-  <div class="p-5 row">
-    <app-logo class="col-7 col-md-6 col-sm-5 d-flex flex-column justify-content-center"></app-logo>
-    <div class="shadow p-4 bg-white rounded col-4 col-md-5 col-sm-6 ml-auto">
+  <div class="p-5 d-flex flex-row justify-content-between align-items-center">
+    <app-logo class="" style="max-width: 350px"></app-logo>
+    <div
+      class="shadow p-4 bg-white rounded w-100 ml-3"
+      style="max-width: 500px"
+    >
       <ng-container *ngTemplateOutlet="loginForm"></ng-container>
     </div>
   </div>
 </ng-template>
-

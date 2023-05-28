@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Group } from '@models/group';
+import { GroupStatusLabel } from './constants/group-status-label'
+import { GroupStatusClass } from './constants/group-status-class'
 
 @Component({
   selector: 'app-groups-table',
@@ -8,6 +10,9 @@ import { Group } from '@models/group';
 })
 export class GroupsTableComponent implements OnInit {
   @Input() groups!: Group[] | null;
+
+  groupStatusLabel = GroupStatusLabel;
+  groupStatusClass = GroupStatusClass;
 
   constructor() {}
 

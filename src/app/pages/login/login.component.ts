@@ -62,7 +62,6 @@ export class LoginComponent implements OnInit {
           this.isSubmitting$.next(false);
         },
         error: (err) => {
-          console.log(err.status);
           this.showNotFoundMessage$.next(
             err.status === HttpStatusCode.NotFound
           );

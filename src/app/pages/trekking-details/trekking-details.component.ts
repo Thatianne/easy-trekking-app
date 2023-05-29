@@ -10,6 +10,8 @@ import { TrekkingImage } from '@models/trekking-image';
 import { UserService } from '@services/user/user.service';
 import { User } from '@models/user';
 import { RoleEnum } from 'src/app/enums/role.enum';
+import { HttpStatusCode } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-trekking-details',
@@ -22,6 +24,8 @@ export class TrekkingDetailsComponent implements OnInit {
   trekking$ = new BehaviorSubject<Trekking | null>(null);
   price$!: Observable<string>;
   user$!: Observable<User | null>;
+  badRequestMessage$ = new BehaviorSubject('');
+  successMessage$ = new BehaviorSubject('');
   userId: number = 0;
 
   difficultLevelBadgdeClass = difficultLevelClass;
@@ -32,7 +36,8 @@ export class TrekkingDetailsComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
     private _trekkingService: TrekkingService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +62,8 @@ export class TrekkingDetailsComponent implements OnInit {
   changedDate(event: Event): void {
     event.preventDefault();
 
+    this.badRequestMessage$.next('');
+    this.successMessage$.next('');
     this.price$ = this._searchPrices().pipe(
       map((prices) => (prices.length > 0 ? `R$${prices[0].price}` : ''))
     );
@@ -66,9 +73,28 @@ export class TrekkingDetailsComponent implements OnInit {
     event.preventDefault();
     this.price$.pipe(take(1)).subscribe((price) => {
       if (price) {
+        this.badRequestMessage$.next('');
+        this.successMessage$.next('');
+
         this._trekkingService
-          .subscribe(id, this.userId, new Date(this.trekkingDate))
-          .subscribe(() => {});
+          .subscribe(id, this.userId, this._toDate(this.trekkingDate))
+          .subscribe({
+            next: (group) => {
+              this.successMessage$.next(
+                `Você está inscrito no trekking ${
+                  group.trekking.name
+                } para o dia ${this._datePipe.transform(
+                  group.date,
+                  'dd/MM/YY'
+                )}`
+              );
+            },
+            error: (err) => {
+              if (err.status === HttpStatusCode.BadRequest) {
+                this.badRequestMessage$.next(err.error.message);
+              }
+            },
+          });
       }
     });
   }
@@ -80,22 +106,16 @@ export class TrekkingDetailsComponent implements OnInit {
   private _searchPrices(): Observable<TrekkingPrice[]> {
     return this.trekking$.pipe(
       take(1),
-      map((trekking) => {
-        const splitedDate = this.trekkingDate.split('-');
-        const date = new Date(
-          +splitedDate[0],
-          +splitedDate[1] - 1,
-          +splitedDate[2]
-        );
-        return trekking
+      map((trekking) =>
+        trekking
           ? trekking.prices.filter((price) =>
-              this._isBetweenDate(date, {
+              this._isBetweenDate(this._toDate(this.trekkingDate), {
                 start: new Date(price.startDate),
                 end: new Date(price.endDate),
               })
             )
-          : [];
-      })
+          : []
+      )
     );
   }
 
@@ -104,5 +124,10 @@ export class TrekkingDetailsComponent implements OnInit {
     { start, end }: { start: Date; end: Date }
   ): boolean {
     return checkDate >= start && checkDate <= end;
+  }
+
+  private _toDate(date: string): Date {
+    const splitedDate = date.split('-');
+    return new Date(+splitedDate[0], +splitedDate[1] - 1, +splitedDate[2]);
   }
 }

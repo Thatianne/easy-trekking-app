@@ -42,6 +42,18 @@
           </ul>
         </div>
 
+        <div *ngIf="(price$ | async) !== '' && (badRequestMessage$ | async) !== ''">
+          <div class="alert alert-danger" role="alert" >
+            {{badRequestMessage$ | async }}
+          </div>
+        </div>
+
+        <div *ngIf="(price$ | async) !== '' && (successMessage$ | async) !== ''">
+          <div class="alert alert-success" role="alert" >
+            {{successMessage$ | async }}
+          </div>
+        </div>
+
         <span>Preço: {{price$ | async}} </span>
 
         <button class="btn btn-block btn-primary my-4" (click)="onSubscribe($event, trekking.id)" [ngClass]="{'disabled': !(price$ | async)}" [attr.aria-disabled]="(price$ | async)">Me inscrever</button>

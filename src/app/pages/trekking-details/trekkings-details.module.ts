@@ -11,6 +11,7 @@ import { LoadingModule } from "@components/loading/loading.module";
 @NgModule({
   declarations: [TrekkingDetailsComponent, TrekkingDescriptionComponent],
   imports: [CommonModule, BrowserModule, LogoModule, ReactiveFormsModule, FormsModule, TrekkingCarouselModule, LoadingModule, DatePipe],
+  providers: [DatePipe],
   exports: [TrekkingDetailsComponent]
 })
 export class TrekkingDetailsModule {}

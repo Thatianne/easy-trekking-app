@@ -4,6 +4,7 @@ import { TrekkingImage } from '@models/trekking-image';
 import { ApiService } from '@services/api/api.service';
 import { Observable } from 'rxjs';
 import { IRequestGet } from './interfaces/request-get';
+import { Group } from '@models/group';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class TrekkingService {
     return this._apiService.get<TrekkingImage[]>(`/trekkings/${id}/images`);
   }
 
-  subscribe(trekkingId: number, userId: number, date: Date): Observable<void> {
+  subscribe(trekkingId: number, userId: number, date: Date): Observable<Group> {
     return this._apiService.post(`/trekkings/${trekkingId}/subscribe/${userId}`, {
       date: date.toISOString()
     });

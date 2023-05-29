@@ -13,6 +13,7 @@ import { DifficultLevelEnum } from 'src/app/enums/difficult-level.enum';
 import { RoleEnum } from 'src/app/enums/role.enum';
 import { AddTrekkingPriceRequest, Trekking } from '@models/trekking'
 import { UploadFileService } from '@services/upload-file/upload-file.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-trekking',
@@ -67,6 +68,7 @@ export class AddTrekkingComponent implements OnInit {
     private _uploadFileService: UploadFileService,
     private _router: Router,
     private _route: ActivatedRoute,
+    private _datePipe: DatePipe
   ) {
     this.isMobile$ = this._screeResolutionService.isMobile();
 
@@ -139,12 +141,16 @@ export class AddTrekkingComponent implements OnInit {
           difficultLevel: controls.difficultLevel.value || DifficultLevelEnum.Easy,
           images: this.images,
           descriptions: controls.descriptions.value?.map(description => description.value || '') || [],
-          prices: controls.prices.value?.map(price => (
-            <AddTrekkingPriceRequest>{
-              startDate: price.startDate,
-              endDate: price.endDate,
+          prices: controls.prices.value?.map(price => {
+            const startDate = price.startDate ? new Date(price.startDate) : new Date();
+            startDate.setHours(0, 0, 0, 0);
+            const endDate = price.endDate ? new Date(price.endDate) : new Date();
+            endDate.setHours(0, 0, 0, 0);
+            return <AddTrekkingPriceRequest>{
+              startDate: new Date(startDate),
+              endDate: new Date(endDate),
               price: price.price,
-            })) || [],
+            }}) || [],
           minPeople: controls.minPeople.value || 0,
           maxPeople: controls.maxPeople.value || 0,
           daysFormGroup: controls.daysFormGroup.value || 0,
@@ -185,7 +191,7 @@ export class AddTrekkingComponent implements OnInit {
   addPrice(event: Event): void {
     event.preventDefault();
     this.prices.push(this._formBuilder.group({
-      startDate: null,
+      startDate: new Date(),
       endDate: null,
       price: null
     }));
@@ -228,8 +234,8 @@ export class AddTrekkingComponent implements OnInit {
 
     trekking.prices.forEach(price => {
       this.prices.push(this._formBuilder.group({
-        startDate: price.startDate.split('T')[0],
-        endDate: price.endDate.split('T')[0],
+        startDate: this._datePipe.transform(price.startDate, 'YYYY-LL-dd'),
+        endDate: this._datePipe.transform(price.endDate, 'YYYY-LL-dd'),
         price: price.price
       }));
     })

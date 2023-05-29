@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Trekking, TrekkingPrice } from '@models/trekking';
 import { TrekkingService } from '@services/trekking/trekking.service';
-import { Observable, Subject, map, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, take, tap } from 'rxjs';
 import { difficultLevelClass } from './constants/difficult-level-class';
 import { DifficultLevelEnum } from 'src/app/enums/difficult-level.enum';
 import { difficultLevelLabel } from './constants/difficult-level-label';
@@ -19,7 +19,7 @@ import { RoleEnum } from 'src/app/enums/role.enum';
 export class TrekkingDetailsComponent implements OnInit {
   trekkingDate: string = '';
 
-  trekking$: Observable<Trekking> = new Subject();
+  trekking$ = new BehaviorSubject<Trekking | null>(null);
   price$!: Observable<string>;
   user$!: Observable<User | null>;
   userId: number = 0;
@@ -41,14 +41,16 @@ export class TrekkingDetailsComponent implements OnInit {
         take(1),
         tap((params) => {
           const id = Number(params.get('id'));
-          this.trekking$ = this._trekkingService.getById(id);
+          this._trekkingService.getById(id).subscribe((trekking) => {
+            this.trekking$.next(trekking);
+          });
         })
       )
       .subscribe();
 
     this.user$ = this._userService.getUser();
-    this.user$.subscribe(user => {
-      this.userId = user?.id || 0
+    this.user$.subscribe((user) => {
+      this.userId = user?.id || 0;
     });
   }
 
@@ -64,8 +66,9 @@ export class TrekkingDetailsComponent implements OnInit {
     event.preventDefault();
     this.price$.pipe(take(1)).subscribe((price) => {
       if (price) {
-        this._trekkingService.subscribe(id, this.userId, new Date(this.trekkingDate)).subscribe(() => {
-        });
+        this._trekkingService
+          .subscribe(id, this.userId, new Date(this.trekkingDate))
+          .subscribe(() => {});
       }
     });
   }
@@ -77,14 +80,22 @@ export class TrekkingDetailsComponent implements OnInit {
   private _searchPrices(): Observable<TrekkingPrice[]> {
     return this.trekking$.pipe(
       take(1),
-      map((trekking) =>
-        trekking.prices.filter((price) =>
-          this._isBetweenDate(new Date(this.trekkingDate), {
-            start: new Date(price.startDate),
-            end: new Date(price.endDate),
-          })
-        )
-      )
+      map((trekking) => {
+        const splitedDate = this.trekkingDate.split('-');
+        const date = new Date(
+          +splitedDate[0],
+          +splitedDate[1] - 1,
+          +splitedDate[2]
+        );
+        return trekking
+          ? trekking.prices.filter((price) =>
+              this._isBetweenDate(date, {
+                start: new Date(price.startDate),
+                end: new Date(price.endDate),
+              })
+            )
+          : [];
+      })
     );
   }
 
@@ -92,6 +103,6 @@ export class TrekkingDetailsComponent implements OnInit {
     checkDate: Date,
     { start, end }: { start: Date; end: Date }
   ): boolean {
-    return checkDate > start && checkDate < end;
+    return checkDate >= start && checkDate <= end;
   }
 }

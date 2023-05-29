@@ -30,8 +30,8 @@ export interface TrekkingDescription {
 export interface TrekkingPrice {
   id: number;
   price: number;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
 }
 
 export interface AddTrekkingRequest {
@@ -53,7 +53,7 @@ export interface AddTrekkingRequest {
 }
 
 export interface AddTrekkingPriceRequest {
-  startDate: string; // date.toISOString()
-  endDate: string;
+  startDate: Date; // date.toISOString()
+  endDate: Date;
   price: number;
 }

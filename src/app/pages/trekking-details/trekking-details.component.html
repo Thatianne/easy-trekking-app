@@ -27,7 +27,19 @@
       <div class="mt-3" *ngIf="(user$ | async)?.role?.id === roleEnum.Tourist">
         <div class="form-group">
           <label for="trekkingDate">Data</label>
-          <input type="date" class="form-control" id="trekkingDate" [(ngModel)]="trekkingDate" (change)="changedDate($event)">
+          <input type="date" class="form-control" id="trekkingDate" [(ngModel)]="trekkingDate" (change)="changedDate($event)" pattern="\d{4}-\d{2}-\d{2}" placeholder="YYYY-MM-DD">
+        </div>
+
+        <div *ngIf="(price$ | async) === ''">
+          <div class="alert alert-warning" role="alert" >
+            O trekking não está disponível para esta data
+          </div>
+          <p>Escolha entre os intervalos abaixo:</p>
+          <ul>
+            <li *ngFor="let price of trekking.prices">
+              {{price.startDate | date:'dd/LL/YY'}} - {{price.endDate | date:'dd/LL/YY'}}
+            </li>
+          </ul>
         </div>
 
         <span>Preço: {{price$ | async}} </span>
@@ -41,3 +53,4 @@
 <ng-template #loading>
   <app-loading class="d-block mt-3"></app-loading>
 </ng-template>
+

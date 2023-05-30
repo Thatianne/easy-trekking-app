@@ -43,8 +43,8 @@ export interface AddTrekkingRequest {
   distanceInMeters: number;
   durationInHours: number;
   difficultLevel: number;
-  descriptions: string[];
-  images: string[];
+  descriptions: AddTrekkingDescriptionRequest[];
+  images: AddTrekkingImageRequest[];
   prices: AddTrekkingPriceRequest[];
   minPeople: number;
   maxPeople: number;
@@ -52,8 +52,20 @@ export interface AddTrekkingRequest {
   daysCompletePayment: number;
 }
 
+export interface AddTrekkingDescriptionRequest {
+  id?: number;
+  description: string;
+}
+
+export interface AddTrekkingImageRequest {
+  id?: number;
+  image: string;
+}
+
+
 export interface AddTrekkingPriceRequest {
-  startDate: Date; // date.toISOString()
+  id?: number;
+  startDate: Date;
   endDate: Date;
   price: number;
 }

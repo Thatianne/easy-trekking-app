@@ -85,7 +85,6 @@ export class EnableGuideTrekkingsComponent implements OnInit {
 
   enableGuideTrekkings(): void {
     const trekkingIds = this.table.getCheckedTrekkingIds();
-    console.log(trekkingIds);
 
     this._guideTrekkingsService.defineAbleToGuide(this.userId, trekkingIds).subscribe();
   }

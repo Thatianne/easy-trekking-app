@@ -6,6 +6,7 @@ import { TrekkingImage } from "./trekking-image";
 export interface Trekking {
   id: number;
   name: string;
+  description: string;
   start: string;
   end: string;
   state: State,
@@ -36,6 +37,7 @@ export interface TrekkingPrice {
 
 export interface AddTrekkingRequest {
   name: string;
+  description: string;
   start: string;
   end: string;
   state: number;

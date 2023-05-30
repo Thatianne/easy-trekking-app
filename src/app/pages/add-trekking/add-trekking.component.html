@@ -1,6 +1,6 @@
 <ng-container *ngIf="isMobile$ | async; else desktopRegister">
   <div class="h-10 d-flex flex-column">
-    <h5>Adicionar trekking</h5>
+    <h5 class="mb-3">{{(isEdit$ | async) ? 'Editar' : 'Cadastrar'}} trekking</h5>
     <ng-container *ngTemplateOutlet="mobileRegister"></ng-container>
   </div>
 </ng-container>
@@ -214,7 +214,12 @@
     </div>
 
     <div class="form-group">
-      <label for="inputDuration" class="form-label">Descrição</label>
+      <label>Descrição</label>
+      <textarea class="form-control" formControlName="description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Descrições diárias</label>
       <ng-container formArrayName="descriptions">
         <ng-container
           *ngFor="
@@ -229,7 +234,7 @@
         </ng-container>
       </ng-container>
       <button
-        *ngIf="descriptions.controls.length > 1"
+        *ngIf="descriptions.controls.length > 0"
         (click)="deleteDescription($event)"
         class="btn btn-outline-danger btn-block mt-3"
       >
@@ -237,7 +242,8 @@
       </button>
       <button
         (click)="addDescription($event)"
-        class="btn btn-outline-primary btn-block mt-3"
+        class="btn btn-outline-primary btn-block"
+        [class]="{'mt-3': descriptions.controls.length > 0}"
       >
         Adicionar
       </button>
@@ -351,8 +357,8 @@
           Campo obrigatório
         </div>
       </div>
-      <div class="form-text fs-6 fw-light">
-        Informe quantos dias de antecedência à data do trekking, o grupo deverá
+      <div class="form-text fs-6 fw-light" [style]="{'font-size': '0.9rem'}">
+        Informe quantos dias de antecedência a data do trekking, o grupo deverá
         ser formado.
       </div>
     </div>
@@ -378,8 +384,8 @@
           Campo obrigatório
         </div>
       </div>
-      <div class="form-text fs-6 fw-light">
-        Informe quantos dias de antecedência à data do trekking, o turista
+      <div class="form-text fs-6 fw-light" [style]="{'font-size': '0.9rem'}">
+        Informe quantos dias de antecedência a data do trekking, o turista
         deverá pagar 100% do valor.
       </div>
     </div>
@@ -389,11 +395,11 @@
 <ng-template #desktopRegister>
   <div class="p-5 d-flex flex-column justify-content-start align-items-start">
     <div class="shadow p-5 bg-white rounded form-box mx-auto">
-      <h5 class="mb-3">Adicionar trekking</h5>
+      <h5 class="mb-3">{{(isEdit$ | async) ? 'Editar' : 'Cadastrar'}} trekking</h5>
       <form (submit)="onSubmit($event)">
         <ng-container *ngTemplateOutlet="addTrekking"></ng-container>
         <button type="submit" class="btn btn-primary btn-block" [ngClass]="{'disabled': (isSalving$ | async)}" [attr.aria-disabled]="(isSalving$ | async)">
-          {{ (isSalving$ | async) ? "Adicionando..." : "Adicionar" }}
+          {{ (isSalving$ | async) ? "Salvando..." : "Salvar" }}
         </button>
       </form>
     </div>

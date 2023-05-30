@@ -43,10 +43,11 @@ export class AddTrekkingComponent implements OnInit {
   imagesLoading$ = new BehaviorSubject(false);
 
   difficultLevelEnum = DifficultLevelEnum;
-  isEdit = false;
+  isEdit$ = new BehaviorSubject(false);
   submitted = false;
   form = this._formBuilder.group({
     name: ['', [Validators.required]],
+    description: [''],
     start: ['', [Validators.required]],
     end: ['', [Validators.required]],
     state: [0, [Validators.required]],
@@ -99,6 +100,8 @@ export class AddTrekkingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.descriptions.clear();
+
     this._route.paramMap
       .pipe(
         take(1),
@@ -110,7 +113,7 @@ export class AddTrekkingComponent implements OnInit {
             this.trekking$.subscribe((trekking) => {
               this._setEditTrekking(trekking);
             });
-            this.isEdit = true;
+            this.isEdit$.next(true);
           }
         })
       )
@@ -147,6 +150,7 @@ export class AddTrekkingComponent implements OnInit {
       .subscribe(() => {
         const trekking: AddTrekkingRequest = {
           name: controls.name.value || '',
+          description: controls.description.value || '',
           start: controls.start.value || '',
           end: controls.end.value || '',
           state: controls.state.value || 0,
@@ -192,7 +196,7 @@ export class AddTrekkingComponent implements OnInit {
           daysCompletePayment: controls.daysCompletePayment.value || 0,
         };
 
-        if (this.isEdit) {
+        if (this.isEdit$.value) {
           const subscription = this._trekkingService
             .edit(this.trekkingId, trekking)
             .subscribe(() => {
@@ -298,6 +302,7 @@ export class AddTrekkingComponent implements OnInit {
 
     this.form.patchValue({
       name: trekking.name,
+      description: trekking.description,
       start: trekking.start,
       end: trekking.end,
       state: trekking.state.id,

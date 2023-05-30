@@ -43,7 +43,9 @@ import { GroupsModule } from '@pages/groups/groups.module';
     ExecuteAutomatedTasksModule,
     GroupsModule
   ],
-  providers: [],
+  providers: [
+    { provide: Window, useValue: window }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

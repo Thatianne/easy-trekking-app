@@ -65,4 +65,14 @@ export class TrekkingFiltersComponent implements OnInit {
     })
   }
 
+  clearFilters(): void {
+    this.formFilter.setValue({
+      state: null,
+      city: null,
+      durationMin: null,
+      durationMax: null,
+      difficultLevel: null
+    })
+  }
+
 }
